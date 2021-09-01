@@ -1,0 +1,10 @@
+{
+    "database": {
+        "host": "localhost",
+        "user": "root",
+        "password": "",
+        "name": "vacationDB"
+    }
+    ,
+    "jwtKey": "aboAl3z"
+}

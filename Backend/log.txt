@@ -1,0 +1,45 @@
+Mon, 30 Aug 2021 17:55:20 GMT
+Failed to delete vacation
+Message: Cannot read property 'picture' of undefined
+Stack: TypeError: Cannot read property 'picture' of undefined
+    at C:\Users\Moataz\Desktop\project-3\Backend\controllers-layer\vacations-controller.js:82:88
+    at Layer.handle [as handle_request] (C:\Users\Moataz\Desktop\project-3\Backend\node_modules\express\lib\router\layer.js:95:5)
+    at next (C:\Users\Moataz\Desktop\project-3\Backend\node_modules\express\lib\router\route.js:137:13)
+    at Route.dispatch (C:\Users\Moataz\Desktop\project-3\Backend\node_modules\express\lib\router\route.js:112:3)
+    at Layer.handle [as handle_request] (C:\Users\Moataz\Desktop\project-3\Backend\node_modules\express\lib\router\layer.js:95:5)
+    at C:\Users\Moataz\Desktop\project-3\Backend\node_modules\express\lib\router\index.js:281:22
+    at param (C:\Users\Moataz\Desktop\project-3\Backend\node_modules\express\lib\router\index.js:354:14)
+    at param (C:\Users\Moataz\Desktop\project-3\Backend\node_modules\express\lib\router\index.js:365:14)
+    at Function.process_params (C:\Users\Moataz\Desktop\project-3\Backend\node_modules\express\lib\router\index.js:410:3)
+    at next (C:\Users\Moataz\Desktop\project-3\Backend\node_modules\express\lib\router\index.js:275:10)
+----------------------------------------------------------------------------------------------------
+Mon, 30 Aug 2021 19:47:11 GMT
+Failed to delete vacation
+Message: Cannot read property 'picture' of undefined
+Stack: TypeError: Cannot read property 'picture' of undefined
+    at C:\Users\Moataz\Desktop\project-3\Backend\controllers-layer\vacations-controller.js:99:88
+    at Layer.handle [as handle_request] (C:\Users\Moataz\Desktop\project-3\Backend\node_modules\express\lib\router\layer.js:95:5)
+    at next (C:\Users\Moataz\Desktop\project-3\Backend\node_modules\express\lib\router\route.js:137:13)
+    at Route.dispatch (C:\Users\Moataz\Desktop\project-3\Backend\node_modules\express\lib\router\route.js:112:3)
+    at Layer.handle [as handle_request] (C:\Users\Moataz\Desktop\project-3\Backend\node_modules\express\lib\router\layer.js:95:5)
+    at C:\Users\Moataz\Desktop\project-3\Backend\node_modules\express\lib\router\index.js:281:22
+    at param (C:\Users\Moataz\Desktop\project-3\Backend\node_modules\express\lib\router\index.js:354:14)
+    at param (C:\Users\Moataz\Desktop\project-3\Backend\node_modules\express\lib\router\index.js:365:14)
+    at Function.process_params (C:\Users\Moataz\Desktop\project-3\Backend\node_modules\express\lib\router\index.js:410:3)
+    at next (C:\Users\Moataz\Desktop\project-3\Backend\node_modules\express\lib\router\index.js:275:10)
+----------------------------------------------------------------------------------------------------
+Mon, 30 Aug 2021 19:47:16 GMT
+Failed to delete vacation
+Message: Cannot read property 'picture' of undefined
+Stack: TypeError: Cannot read property 'picture' of undefined
+    at C:\Users\Moataz\Desktop\project-3\Backend\controllers-layer\vacations-controller.js:99:88
+    at Layer.handle [as handle_request] (C:\Users\Moataz\Desktop\project-3\Backend\node_modules\express\lib\router\layer.js:95:5)
+    at next (C:\Users\Moataz\Desktop\project-3\Backend\node_modules\express\lib\router\route.js:137:13)
+    at Route.dispatch (C:\Users\Moataz\Desktop\project-3\Backend\node_modules\express\lib\router\route.js:112:3)
+    at Layer.handle [as handle_request] (C:\Users\Moataz\Desktop\project-3\Backend\node_modules\express\lib\router\layer.js:95:5)
+    at C:\Users\Moataz\Desktop\project-3\Backend\node_modules\express\lib\router\index.js:281:22
+    at param (C:\Users\Moataz\Desktop\project-3\Backend\node_modules\express\lib\router\index.js:354:14)
+    at param (C:\Users\Moataz\Desktop\project-3\Backend\node_modules\express\lib\router\index.js:365:14)
+    at Function.process_params (C:\Users\Moataz\Desktop\project-3\Backend\node_modules\express\lib\router\index.js:410:3)
+    at next (C:\Users\Moataz\Desktop\project-3\Backend\node_modules\express\lib\router\index.js:275:10)
+----------------------------------------------------------------------------------------------------
