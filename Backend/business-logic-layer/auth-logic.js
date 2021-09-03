@@ -26,8 +26,6 @@ async function loginAsync(credentials) {
     if (users.length === 0) return null;
     user = users[0];
     user.token = cryptoHelper.getNewToken(user);
-    console.log(user);
-
     return user;
 }
 

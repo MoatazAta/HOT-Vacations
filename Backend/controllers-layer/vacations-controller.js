@@ -4,6 +4,9 @@ const VacationModel = require("../models/VacationModel");
 const router = express.Router();
 const logHelper = require("../helpers/log-helper");
 const expressFileUpload = require("express-fileupload");
+const path = require("path");
+const fs = require('fs');
+
 const server = express();
 
 
@@ -11,7 +14,7 @@ server.use(expressFileUpload());
 
 
 // GET all vacations
-router.get("/api/vacations", async (request, response) => {
+router.get("/", async (request, response) => {
     try {
         const vacations = await vacationLogic.getAllVacationsAsync();
         response.json(vacations);
@@ -22,7 +25,7 @@ router.get("/api/vacations", async (request, response) => {
 });
 
 // GET one vacation
-router.get("/api/vacations/:vacationId", async (request, response) => {
+router.get("/:vacationId", async (request, response) => {
     try {
         vacationId = +request.params.vacationId;
         const vacation = await vacationLogic.getOneVacationAsync(vacationId);
@@ -34,7 +37,7 @@ router.get("/api/vacations/:vacationId", async (request, response) => {
 });
 
 //POST new vacation
-router.post("/api/vacations", async (request, response) => {
+router.post("/", async (request, response) => {
     try {
         if (!request.files.image) {
             response.status(400).send("No image sent");
@@ -50,7 +53,7 @@ router.post("/api/vacations", async (request, response) => {
 });
 
 // PUT http://localhost:3001/api/vacations/7
-router.put("/api/vacations/:id", async (request, response) => {
+router.put("/:id", async (request, response) => {
     try {
         const vacationId = +request.params.id;
         request.body.vacationId = vacationId;
@@ -87,7 +90,7 @@ router.put("/api/vacations/:id", async (request, response) => {
 
 
 // DELETE vacation
-router.delete("/api/vacations/:vacationId", async (request, response) => {
+router.delete("/:vacationId", async (request, response) => {
     try {
         const vacationId = +request.params.vacationId;
         const vacation = await vacationLogic.getOneVacationAsync(vacationId);
@@ -109,12 +112,11 @@ router.delete("/api/vacations/:vacationId", async (request, response) => {
 router.get("/images/:name", (request, response) => {
     try {
         const name = request.params.name;
-        let absolutePath = path.join("./images/", name);
-        if (!fs.existsSync(absolutePath)) {
-            absolutePath = path.join("./images/", "ImageNotFound.jpg");
+        let fullPath = path.join(__dirname, "..", "images", name);
+        if (!fs.existsSync(fullPath)) {
+            fullPath = path.join(__dirname, "..", "images", "ImageNotFound.jpg");
         }
-        // Success:
-        response.sendFile(absolutePath);
+        response.sendFile(fullPath);
     }
     catch (err) {
         response.status(500).send(err.message);
