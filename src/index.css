@@ -1,0 +1,22 @@
+html, body, #root {
+    height: 100%;
+    text-align: center;
+    font-size: x-large;
+    /* background-image: url("https://www.zingerbug.com/Backgrounds/background_images/wood_grain.jpg"); */
+    background-image: linear-gradient(green,white);
+}
+
+a {
+    color: white;
+}
+
+
+.Box {
+    display: inline-block;
+    text-align: left;
+    border: 1px solid black;
+    padding: 0 10px;
+    margin: 10px;
+    border-radius: 10px;
+    box-shadow: 5px 5px 10px;
+}

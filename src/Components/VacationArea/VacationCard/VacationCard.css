@@ -1,0 +1,13 @@
+.VacationCard {
+    width: 250px;
+    height: 200px;
+    border: 1px solid black;
+    border-radius: 10px;
+    background-image: linear-gradient(red, lightgreen);
+    color: white;
+    display: inline-block;
+    overflow: auto;
+    margin: 20px;
+    padding: 10px;
+    font-size: smaller;
+}

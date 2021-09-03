@@ -1,0 +1,27 @@
+.EditVacation {
+    text-align: center;
+
+}
+.EditVacation > form {
+    width: 300px;
+    margin: auto;
+    text-align: left;
+}
+
+.EditVacation input ,textarea {
+    width: 100%;
+    box-sizing: border-box;
+    margin: 0 0 20px 0;
+}
+
+.EditVacation button {
+    width: 100%;
+    margin: 10px 0 20px 0;
+}
+
+.EditVacation span {
+    margin: 0 20px;
+    position: absolute;
+    color: darkred;
+    margin-left: 10px;
+}
