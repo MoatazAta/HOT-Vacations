@@ -1,10 +1,10 @@
 import "./Loading.css";
-import loading from "../../../Assets/Images/loading.gif";
+import loading from "../../../Assets/Images/MEBIB.gif";
 
 function Loading(): JSX.Element {
     return (
         <div className="Loading">
-			<img src={loading} />
+			<img alt="" src={loading} />
         </div>
     );
 }

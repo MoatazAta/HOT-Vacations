@@ -43,3 +43,26 @@ Stack: TypeError: Cannot read property 'picture' of undefined
     at Function.process_params (C:\Users\Moataz\Desktop\project-3\Backend\node_modules\express\lib\router\index.js:410:3)
     at next (C:\Users\Moataz\Desktop\project-3\Backend\node_modules\express\lib\router\index.js:275:10)
 ----------------------------------------------------------------------------------------------------
+Sat, 04 Sep 2021 18:09:11 GMT
+Failed to delete vacation
+Message: Cannot read property 'picture' of undefined
+Stack: TypeError: Cannot read property 'picture' of undefined
+    at C:\Users\Moataz\Desktop\MyRepositories\Travel-Now\Backend\controllers-layer\vacations-controller.js:98:46
+    at processTicksAndRejections (internal/process/task_queues.js:95:5)
+----------------------------------------------------------------------------------------------------
+Sun, 05 Sep 2021 11:38:01 GMT
+Failed to delete vacation
+Message: Cannot read property 'picture' of undefined
+Stack: TypeError: Cannot read property 'picture' of undefined
+    at C:\Users\Moataz\Desktop\MyRepositories\Travel-Now\Backend\controllers-layer\vacations-controller.js:98:46
+    at runMicrotasks (<anonymous>)
+    at processTicksAndRejections (internal/process/task_queues.js:95:5)
+----------------------------------------------------------------------------------------------------
+Sun, 05 Sep 2021 11:39:07 GMT
+Failed to delete vacation
+Message: Cannot read property 'picture' of undefined
+Stack: TypeError: Cannot read property 'picture' of undefined
+    at C:\Users\Moataz\Desktop\MyRepositories\Travel-Now\Backend\controllers-layer\vacations-controller.js:98:46
+    at runMicrotasks (<anonymous>)
+    at processTicksAndRejections (internal/process/task_queues.js:95:5)
+----------------------------------------------------------------------------------------------------

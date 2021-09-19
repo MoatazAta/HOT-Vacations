@@ -1,11 +1,13 @@
 const express = require("express");
 const vacationLogic = require("../business-logic-layer/vacations-logic");
-const VacationModel = require("../models/VacationModel");
+const VacationModel = require("../models/vacation-model");
 const router = express.Router();
 const logHelper = require("../helpers/log-helper");
 const expressFileUpload = require("express-fileupload");
 const path = require("path");
 const fs = require('fs');
+const verifyLoggedIn = require("../middleware/verify-logged-in");
+const verifyAdmin = require("../middleware/verify-admin");
 
 const server = express();
 
@@ -14,7 +16,7 @@ server.use(expressFileUpload());
 
 
 // GET all vacations
-router.get("/", async (request, response) => {
+router.get("/", verifyLoggedIn, async (request, response) => {
     try {
         const vacations = await vacationLogic.getAllVacationsAsync();
         response.json(vacations);
@@ -25,7 +27,7 @@ router.get("/", async (request, response) => {
 });
 
 // GET one vacation
-router.get("/:vacationId", async (request, response) => {
+router.get("/:vacationId", verifyLoggedIn, async (request, response) => {
     try {
         vacationId = +request.params.vacationId;
         const vacation = await vacationLogic.getOneVacationAsync(vacationId);
@@ -37,13 +39,19 @@ router.get("/:vacationId", async (request, response) => {
 });
 
 //POST new vacation
-router.post("/", async (request, response) => {
+router.post("/", [verifyLoggedIn, verifyAdmin], async (request, response) => {
     try {
         if (!request.files.image) {
-            response.status(400).send("No image sent");
+            response.status(400).send("No image sent.");
             return;
         }
+
         const newVacation = new VacationModel(request.body);
+        const errors = newVacation.validatePost();
+        if (errors) {
+            response.status(400).send(errors);
+            return;
+        }
         const addedVacation = await vacationLogic.addVacationAsync(newVacation, request.files ? request.files.image : null);
         response.status(201).json(addedVacation);
 
@@ -52,35 +60,28 @@ router.post("/", async (request, response) => {
     }
 });
 
-// PUT http://localhost:3001/api/vacations/7
-router.put("/:id", async (request, response) => {
+// PUT http://localhost:3001/api/vacations/2
+router.put("/:id", [verifyLoggedIn, verifyAdmin], async (request, response) => {
     try {
         const vacationId = +request.params.id;
         request.body.vacationId = vacationId;
 
-        // request.body.description = ".......";
-        // request.body.destination = "Istanbul";
-        // request.body.start = "2021-08-22";
-        // request.body.end = "2021-08-22";
-        // request.body.price = 3577;
-
         const vacationToUpdate = new VacationModel(request.body);
         const vacation = await vacationLogic.getOneVacationAsync(vacationId);
         currentImageName = vacation[0].picture
-        // // Validation:
-        // const errors = vacation.validatePut();
-        // if(errors) {
-        //     response.status(400).send(errors);
-        //     return;
-        // }
 
-        // Logic: 
-        const updatedVacation = await vacationLogic.updateFullVacationAsync(vacationToUpdate, request.files ? request.files.picture : null, currentImageName);
-        if (!updatedVacation) {
-            response.status(404).send(`id ${vacationId} not found`);
+        const errors = vacationToUpdate.validatePut();
+        if (errors) {
+            response.status(400).send(errors);
             return;
         }
-        // Success: 
+
+        const updatedVacation = await vacationLogic.updateFullVacationAsync(vacationToUpdate, request.files ? request.files.picture : null, currentImageName);
+        if (!updatedVacation) {
+            response.status(404).send(`vacation not found`);
+            return;
+        }
+
         response.json(updatedVacation);
     }
     catch (err) {
@@ -90,7 +91,7 @@ router.put("/:id", async (request, response) => {
 
 
 // DELETE vacation
-router.delete("/:vacationId", async (request, response) => {
+router.delete("/:vacationId", [verifyLoggedIn, verifyAdmin], async (request, response) => {
     try {
         const vacationId = +request.params.vacationId;
         const vacation = await vacationLogic.getOneVacationAsync(vacationId);
@@ -122,36 +123,5 @@ router.get("/images/:name", (request, response) => {
         response.status(500).send(err.message);
     }
 });
-
-// // PATCH partial vacation
-// router.patch("/api/vacations/:vacationId", async (request, response) => {
-//     try {
-//         // Model:
-//         const vacationId = +request.params.vacationId;
-//         request.body.vacationId = vacationId;
-//         const vacation = new VacationModel(request.body);
-//         console.log("id in patch: " + vacation.vacationId)
-//         // // Validation:
-//         // const errors = product.validatePatch();
-//         // if(errors) {
-//         //     response.status(400).send(errors);
-//         //     return;
-//         // }
-
-//         // Logic: 
-//         const updatedVacation = await vacationLogic.updatePartialVacationAsync(vacation);
-//         console.log(vacation)
-//         if (!updatedVacation) {
-//             response.status(404).send(`id ${id} not found`);
-//             return;
-//         }
-
-//         // Success: 
-//         response.json(updatedVacation);
-//     }
-//     catch (err) {
-//         response.status(500).send(err.message);
-//     }
-// });
 
 module.exports = router;

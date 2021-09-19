@@ -1,10 +1,8 @@
 import UserModel from "../Models/UserModel";
-import VacationsService from "../Services/VacationsService";
+import vacationsService from "../Services/VacationsService";
 
 export class AuthState {
     public user: UserModel = null;
-
-    public vacationSocket: VacationsService = new VacationsService();;
 
     public constructor() {
         const user = JSON.parse(localStorage.getItem("user"));
@@ -31,12 +29,14 @@ export function authReducer(currentState: AuthState = new AuthState(), action: A
         case AuthActionType.UserRegistered:
         case AuthActionType.UserLoggedIn:
             newState.user = action.payload;
-            newState.vacationSocket.connect();
+            // newState.vacationSocket.connect();
+            vacationsService.connect();
             localStorage.setItem("user", JSON.stringify(newState.user));
             break;
         case AuthActionType.UserLoggedOut:
             newState.user = null;
-            newState.vacationSocket.disconnect();
+            vacationsService.disconnect();
+            // newState.vacationSocket.disconnect();
             localStorage.removeItem("user");
             break;
     }

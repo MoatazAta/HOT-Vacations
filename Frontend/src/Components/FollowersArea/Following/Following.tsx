@@ -5,6 +5,7 @@ import jwtAxios from "../../../Services/jwtAxios";
 import notify from "../../../Services/Notify";
 import "./Following.css";
 import { FavoriteBorder, FavoriteSharp } from "@material-ui/icons";
+import { Fab } from "@material-ui/core";
 
 interface FollowingProps {
     vacationId?: number;
@@ -46,21 +47,23 @@ class Following extends Component<FollowingProps, FollowingState> {
 
     public isFollowingVacation = async () => {
         await this.setState({ isFollow: !this.state.isFollow });
-        if(this.state.isFollow){
+        if (this.state.isFollow) {
             this.followVacation();
         }
-        else{
+        else {
             this.unFollowVacation();
-            // localStorage.clear();
         }
     }
 
     public render(): JSX.Element {
         return (
             <div className="Following">
-                    {/* {this.state.isFollow === false && <Fab size="small" color="primary" aria-label="followOn"  > {<FavoriteBorder/>}</Fab> }
-                    {this.state.isFollow === true && <Fab size="small" color="primary" aria-label="followOff" > {<FavoriteSharp/>}</Fab> } */}
+                <div onClick={this.isFollowingVacation}>
+                    {this.state.isFollow === false && <Fab size="small" color="inherit" aria-label="follow"  > {<FavoriteBorder />}</Fab>}
+                    {this.state.isFollow === true && <Fab size="small" color="inherit" aria-label="unFollow" > {<FavoriteSharp />}</Fab>}
+                </div>
             </div>
+
         );
     }
 }

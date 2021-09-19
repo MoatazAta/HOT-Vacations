@@ -8,6 +8,16 @@ import notify from "../../../Services/Notify";
 import FollowersCount from "../../FollowersArea/FollowersCount/FollowersCount";
 import Following from "../../FollowersArea/Following/Following";
 import "./VacationCard.css";
+import Card from "@material-ui/core/Card";
+import CardHeader from "@material-ui/core/CardHeader";
+import { CardContent, Fab, IconButton, Typography } from "@material-ui/core";
+import CardMedia from '@material-ui/core/CardMedia';
+import DateRangeIcon from '@material-ui/icons/DateRange';
+import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
+import { Delete } from "@material-ui/icons";
+import EditIcon from "@material-ui/icons";
+import vacationsService from "../../../Services/VacationsService";
+import { VacationActionType } from "../../../Redux/VacationState";
 
 interface VacationCardProps {
     vacation: VacationModel;
@@ -19,11 +29,10 @@ function VacationCard(props: VacationCardProps): JSX.Element {
 
     const deleteVacation = async () => {
         try {
-            const vacationSocket = store.getState().authState.vacationSocket.socket;
             const ok = window.confirm("Are you sure?");
             if (!ok) return;
-            const response = await jwtAxios.delete(config.vacationsUrl + props.vacation.vacationId);
-            vacationSocket.emit("deleted-vacation-from-client", response);
+            await jwtAxios.delete(config.vacationsUrl + props.vacation.vacationId);
+            vacationsService.delete(props.vacation.vacationId);
             notify.success("Vacation has been deleted");
             history.push("/vacations");
         } catch (err) {
@@ -33,25 +42,34 @@ function VacationCard(props: VacationCardProps): JSX.Element {
 
     return (
         <div className="VacationCard">
-            <FollowersCount vacationId={props.vacation.vacationId} />
-            destination: {props.vacation.destination}
-            <br />
-            description: {props.vacation.description}
-            <br />
-            price: {props.vacation.price}
-            <br />
-            departure: {props.vacation.start}
-            <br />
-            return: {props.vacation.end}
-            <br />
-            <img src={Config.vacationImagesUrl + props.vacation.picture} width="100" height="90" />
-            <div className="AdminControl">
-                {props.isAdmin === 1 && <NavLink to={"/vacations/edit/" + props.vacation.vacationId}>Edit</NavLink>}
-                <span> | </span>
-                {props.isAdmin === 1 && <NavLink to={"/vacations/delete/" + props.vacation.vacationId} onClick={() => deleteVacation()} >Delete</NavLink>}
-                <span> | </span>
-                {/* {props.isAdmin === 0 && <Following vacationId={props.vacation.vacationId}></Following>} */}
-            </div>
+            <Card elevation={3}>
+                <CardHeader
+                    action={
+                        <IconButton>
+                            <FollowersCount vacationId={props.vacation.vacationId} />
+                        </IconButton>
+                    }
+                    title={props.vacation.destination}
+                    subheader={props.vacation.price}
+                />
+                <img src={Config.vacationImagesUrl + props.vacation.picture} width="200" height="150" />
+                <CardContent>
+                    <Typography variant="body2" color="primary">
+                        {props.vacation.start} to {props.vacation.end}
+                    </Typography>
+
+                    <Typography  variant="body2" color="textSecondary" noWrap >
+                        {props.vacation.description}
+                    </Typography>
+                </CardContent>
+                <div className="bottomMenu">
+                    {props.isAdmin === 1 && <NavLink to={"/vacations/edit/" + props.vacation.vacationId}><Fab color="secondary" size="small" aria-label="edit"> <EditOutlinedIcon /></Fab></NavLink>}
+
+                    {props.isAdmin === 1 && <NavLink to={"/vacations/delete/" + props.vacation.vacationId} ><Fab size="small" color="primary" aria-label="delete" onClick={() => deleteVacation()}> <Delete /> </Fab></NavLink>}
+
+                    {props.isAdmin === 0 && <Following vacationId={props.vacation.vacationId} userId={store.getState().authState.user.userId}></Following>}
+                </div>
+            </Card>
         </div>
     );
 }

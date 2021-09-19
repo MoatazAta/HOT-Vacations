@@ -6,8 +6,8 @@ import { useEffect } from "react";
 import store from "../../../Redux/Store";
 import notify from "../../../Services/Notify";
 import jwtAxios from "../../../Services/jwtAxios";
-import { VacationActionType } from "../../../Redux/VacationState";
 import config from "../../../Services/Config";
+import vacationsService from "../../../Services/VacationsService";
 
 function AddVacation(): JSX.Element {
     const history = useHistory();
@@ -23,7 +23,6 @@ function AddVacation(): JSX.Element {
 
     async function send(vacation: VacationModel) {
         try {
-            const vacationSocket = store.getState().authState.vacationSocket.socket;   
             const myFormData = new FormData();
             myFormData.append("description", vacation.description);
             myFormData.append("destination", vacation.destination);
@@ -31,17 +30,12 @@ function AddVacation(): JSX.Element {
             myFormData.append("start", vacation.start);
             myFormData.append("end", vacation.end);
             myFormData.append("image", vacation.image.item(0));
-            // POST to the server the FormData object:
-            // const headers = { "authorization": "Bearer " + store.getState().authState.user?.token };
-            // const response = await axios.post<ProductModel>(config.productsUrl, myFormData, { headers });
-            const response = await jwtAxios.post<VacationModel>(config.vacationsUrl, myFormData);
-            vacationSocket.emit("added-vacation-from-client", response.data);
-            // Add the added product to Redux (response.data is the added product which backend sends us back): 
-            // store.dispatch({ type: VacationActionType.VacationAdded, payload: response.data });
-            // Success message: 
-            notify.success("vacation has been added.");
 
-            // Navigate to "/products" route: 
+            const response = await jwtAxios.post<VacationModel>(config.vacationsUrl, myFormData);
+
+            vacationsService.add(response.data);
+
+            notify.success("vacation has been added.");
             history.push("/vacations");
         }
         catch (err) {
@@ -50,7 +44,7 @@ function AddVacation(): JSX.Element {
     }
 
     return (
-        <div className="AddVacation">
+        <div className="AddVacation Box">
             <h2>Add New Vacation</h2>
             <form onSubmit={handleSubmit(send)} >
 

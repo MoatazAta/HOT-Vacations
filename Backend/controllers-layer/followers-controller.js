@@ -1,6 +1,6 @@
 const express = require("express");
 const followersLogic = require("../business-logic-layer/followers-logic");
-const VacationModel = require("../models/VacationModel");
+const VacationModel = require("../models/vacation-model");
 const logHelper = require("../helpers/log-helper");
 const errorsHelper = require("../helpers/errors-helper");
 
@@ -17,17 +17,6 @@ router.get("/", async (request, response) => {
     }
 });
 
-// // GET http://localhost:3001/api/followers/2
-// router.get("/:id", async (request, response) => {
-//     try {
-//         const userId = +request.params.id;
-//         const follower = await followersLogic.getOneFollowerAsync(userId);
-//         response.json(follower);
-//     }
-//     catch (err) {
-//         errorsHelper.internalServerError(response, err);
-//     }
-// });
 
 // GET http://localhost:3001/api/followers/number-followers-per-vacation
 router.get("/number-followers-per-vacation", async (request, response) => {

@@ -63,23 +63,6 @@ async function updateFullVacationAsync(vacation, newImage, currentImage) {
     return info.affectedRows === 0 ? null : vacation;
 }
 
-// // Update partially :
-// async function updatePartialVacationAsync(vacation) {
-//     console.log(vacation.vacationId);
-//     const vacationToUpdate = await getOneVacationAsync(vacation.vacationId);
-//     if(!vacationToUpdate) return null;
-
-//     // Update only the properties sent by frontend:
-//     for(const prop in vacation) {
-//         if(prop in vacationToUpdate && vacation[prop] !== undefined) {
-//             vacationToUpdate[prop] = vacation[prop];
-//         }
-//     }
-//     console.log("id in part: " + vacationToUpdate.vacationId)
-
-
-//     return await updateFullVacationAsync(vacationToUpdate);
-// }
 
 // Delete :
 async function deleteVacationAsync(vacationId, imageName) {

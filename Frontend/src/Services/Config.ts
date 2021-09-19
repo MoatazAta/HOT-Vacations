@@ -3,15 +3,13 @@ abstract class Config {
 
     public isDevelopment = (process.env.NODE_ENV === "development");
 
-    public readonly registerUrl: string;
-    public readonly loginUrl: string;
+    public readonly authUrl: string;
     public readonly vacationsUrl: string;
     public readonly vacationImagesUrl: string;
     public readonly followersUrl: string;
 
     public constructor(baseUrl: string) {
-        this.registerUrl = baseUrl + "auth/register/";
-        this.loginUrl = baseUrl + "auth/login/";
+        this.authUrl = baseUrl + "auth/";
         this.vacationsUrl = baseUrl + "vacations/";
         this.vacationImagesUrl = baseUrl + "vacations/images/";
         this.followersUrl = baseUrl + "followers/"

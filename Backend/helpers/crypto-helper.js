@@ -8,9 +8,6 @@ function hash(plainText) {
     // Hashing without salt: 
     return crypto.createHash("sha512").update(plainText).digest("hex");
 
-    // Hashing with salt: 
-    // const salt = "MakeThingsGoRight";
-    // return crypto.createHmac("sha512", salt).update(plainText).digest("hex");
 }
 
 function getNewToken(user) { // (payload will be the user object)

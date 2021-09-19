@@ -3,11 +3,11 @@ html, body, #root {
     text-align: center;
     font-size: x-large;
     /* background-image: url("https://www.zingerbug.com/Backgrounds/background_images/wood_grain.jpg"); */
-    background-image: linear-gradient(green,white);
+    background-image: linear-gradient(lightgray,white);
 }
 
 a {
-    color: white;
+    color: darkblue;
 }
 
 

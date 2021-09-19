@@ -7,8 +7,7 @@ import notify from "../../../Services/Notify";
 import "./EditVacation.css";
 import jwtAxios from "../../../Services/jwtAxios";
 import config from "../../../Services/Config";
-import axios from "axios";
-import { VacationActionType } from "../../../Redux/VacationState";
+import vacationsService from "../../../Services/VacationsService";
 
 interface RouteParams {
     id: string;
@@ -25,11 +24,11 @@ function EditVacation(props: EditVacationProps): JSX.Element {
     const [vacation, setVacation] = useState<VacationModel[]>([]);
 
     useEffect(() => {
-
         if (!store.getState().authState.user) {
             notify.error("You are not logged in!");
             history.push("/login");
         }
+        
         jwtAxios.get<VacationModel[]>(config.vacationsUrl + `${id}`)
             .then(response => setVacation(response.data))
             .catch(error => {
@@ -40,9 +39,6 @@ function EditVacation(props: EditVacationProps): JSX.Element {
 
     async function send(vacation: VacationModel) {
         try {
-            //socket is here!
-            const vacationSocket = store.getState().authState.vacationSocket.socket;   
-
             const myFormData = new FormData();
             myFormData.append("description", vacation.description);
             myFormData.append("destination", vacation.destination);
@@ -50,27 +46,22 @@ function EditVacation(props: EditVacationProps): JSX.Element {
             myFormData.append("start", vacation.start);
             myFormData.append("end", vacation.end);
             myFormData.append("image", vacation.image.item(0));
-            const response = await axios.put<VacationModel>(config.vacationsUrl + `${id}`, myFormData);
+            const response = await jwtAxios.put<VacationModel>(config.vacationsUrl + `${id}`, myFormData);
             const updatedVacation = response.data;
-            vacationSocket.emit("updated-vacation-from-client", updatedVacation);
 
-            // store.dispatch({ type: VacationActionType.VacationUpdated, payload: updatedVacation });
+            vacationsService.edit(updatedVacation);
 
             notify.success("Vacations has been update");
             history.push("/vacations");
-        } catch (err) {
+
+        } 
+        catch (err) {
             notify.error(err);
-            // if (err.response.data === "Your login session has expired.") {
-            //     store.dispatch({ type: AuthActionType.UserLoggedOut });
-            //     history.push("/login");
-            // }
         }
-
-
     }
 
     return (
-        <div className="EditVacation" >
+        <div className="EditVacation Box" >
             {vacation.map(v =>
                 <form onSubmit={handleSubmit(send)} key={v.vacationId} >
 
