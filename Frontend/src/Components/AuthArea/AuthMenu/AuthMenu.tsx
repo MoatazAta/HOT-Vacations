@@ -4,6 +4,9 @@ import { Unsubscribe } from "redux";
 import UserModel from "../../../Models/UserModel";
 import store from "../../../Redux/Store";
 import "./AuthMenu.css";
+// import LogoutIcon from '@mui/icons-material/Logout';
+// import LogoutIcon from '@material-ui/icons/Logout';
+import { Fab } from "@material-ui/core";
 
 interface AuthMenuState {
     user: UserModel;
@@ -24,7 +27,7 @@ class AuthMenu extends Component<{}, AuthMenuState> {
         });
     }
 
-    public componentWillUnmount() :void {
+    public componentWillUnmount(): void {
         this.unsubscribeMe();
     }
 
@@ -35,19 +38,19 @@ class AuthMenu extends Component<{}, AuthMenuState> {
                     <>
                         <span>Hello {this.state.user.firstName + " " + this.state.user.lastName}</span>
                         <span> | </span>
-                        <NavLink to="/logout" exact>Logout</NavLink>
-                    </>
+                        <NavLink to="/logout" exact><Fab color="secondary" size="small" aria-label="edit"> <LogoutIcon /></Fab></NavLink>
 
+                    </>
                 }
                 {
                     !this.state.user &&
-                        <>
-                           <span>Hello Guest</span>
-                           <span> | </span>
-                           <NavLink to="/login" exact>Login</NavLink>
-                           <span> | </span>
-                           <NavLink to="/register" exact>Register</NavLink>
-                        </>
+                    <>
+                        <span>Hello Guest</span>
+                        <span> | </span>
+                        <NavLink to="/login" exact>Login</NavLink>
+                        <span> | </span>
+                        <NavLink to="/register" exact>Register</NavLink>
+                    </>
                 }
             </div>
         );

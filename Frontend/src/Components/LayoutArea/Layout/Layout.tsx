@@ -4,17 +4,18 @@ import AuthMenu from "../../AuthArea/AuthMenu/AuthMenu";
 import Routing from "../Routing/Routing";
 import "./Layout.css";
 import logoImage from "../../../Assets/Images/travelnow.png";
+import Header from "../Header/Header";
 
 function Layout(): JSX.Element {
 
     return (
         <div className="Layout">
-
-            <div className="Logo">
+            <Header />
+            {/* <div className="Logo">
                 <img alt="" src={logoImage} />
             </div>
 
-            <AuthMenu />
+            <AuthMenu /> */}
 
             <Typography variant="h5" align="center" color="primary">Travel Now</Typography>
 

@@ -18,7 +18,7 @@ function init(listener) {
 
         socket.on("deleted-vacation-from-client", deletedVacation => {
             socketsManager.sockets.emit("deleted-vacation-from-server", deletedVacation);
-        });
+        }); 
 
         socket.on("disconnect", () => {
             console.log("A client has been disconnected");

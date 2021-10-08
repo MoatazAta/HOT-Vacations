@@ -11,12 +11,8 @@ import "./VacationCard.css";
 import Card from "@material-ui/core/Card";
 import CardHeader from "@material-ui/core/CardHeader";
 import { CardContent, Fab, IconButton, Typography } from "@material-ui/core";
-import CardMedia from '@material-ui/core/CardMedia';
-import DateRangeIcon from '@material-ui/icons/DateRange';
 import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
 import { Delete } from "@material-ui/icons";
-import EditIcon from "@material-ui/icons";
-import vacationsService from "../../../Services/VacationsService";
 import { VacationActionType } from "../../../Redux/VacationState";
 
 interface VacationCardProps {
@@ -32,7 +28,9 @@ function VacationCard(props: VacationCardProps): JSX.Element {
             const ok = window.confirm("Are you sure?");
             if (!ok) return;
             await jwtAxios.delete(config.vacationsUrl + props.vacation.vacationId);
-            vacationsService.delete(props.vacation.vacationId);
+            store.dispatch({ type: VacationActionType.VacationDeleted, payload: props.vacation.vacationId });
+
+            // vacationsService.delete(props.vacation.vacationId);
             notify.success("Vacation has been deleted");
             history.push("/vacations");
         } catch (err) {
@@ -58,7 +56,7 @@ function VacationCard(props: VacationCardProps): JSX.Element {
                         {props.vacation.start} to {props.vacation.end}
                     </Typography>
 
-                    <Typography  variant="body2" color="textSecondary" noWrap >
+                    <Typography variant="body2" color="textSecondary" noWrap >
                         {props.vacation.description}
                     </Typography>
                 </CardContent>

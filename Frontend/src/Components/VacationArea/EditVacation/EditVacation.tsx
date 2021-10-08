@@ -7,7 +7,7 @@ import notify from "../../../Services/Notify";
 import "./EditVacation.css";
 import jwtAxios from "../../../Services/jwtAxios";
 import config from "../../../Services/Config";
-import vacationsService from "../../../Services/VacationsService";
+import { VacationActionType } from "../../../Redux/VacationState";
 
 interface RouteParams {
     id: string;
@@ -48,8 +48,9 @@ function EditVacation(props: EditVacationProps): JSX.Element {
             myFormData.append("image", vacation.image.item(0));
             const response = await jwtAxios.put<VacationModel>(config.vacationsUrl + `${id}`, myFormData);
             const updatedVacation = response.data;
+            store.dispatch({ type: VacationActionType.VacationAdded, payload: updatedVacation });
 
-            vacationsService.edit(updatedVacation);
+            // vacationsService.edit(updatedVacation);
 
             notify.success("Vacations has been update");
             history.push("/vacations");

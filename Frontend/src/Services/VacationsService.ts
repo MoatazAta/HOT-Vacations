@@ -14,7 +14,7 @@ class VacationsService {
 
     public edit(updatedVacation: VacationModel) {
         this.socket.emit("updated-vacation-from-client", updatedVacation);
-    }
+    } 
 
     public add(addedVacation: VacationModel) {
         this.socket.emit("added-vacation-from-client", addedVacation);

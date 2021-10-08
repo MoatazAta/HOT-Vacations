@@ -29,14 +29,12 @@ export function authReducer(currentState: AuthState = new AuthState(), action: A
         case AuthActionType.UserRegistered:
         case AuthActionType.UserLoggedIn:
             newState.user = action.payload;
-            // newState.vacationSocket.connect();
-            vacationsService.connect();
+            // vacationsService.connect();
             localStorage.setItem("user", JSON.stringify(newState.user));
             break;
         case AuthActionType.UserLoggedOut:
             newState.user = null;
-            vacationsService.disconnect();
-            // newState.vacationSocket.disconnect();
+            // vacationsService.disconnect();
             localStorage.removeItem("user");
             break;
     }

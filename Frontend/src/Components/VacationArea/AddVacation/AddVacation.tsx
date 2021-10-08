@@ -7,7 +7,7 @@ import store from "../../../Redux/Store";
 import notify from "../../../Services/Notify";
 import jwtAxios from "../../../Services/jwtAxios";
 import config from "../../../Services/Config";
-import vacationsService from "../../../Services/VacationsService";
+import { VacationActionType } from "../../../Redux/VacationState";
 
 function AddVacation(): JSX.Element {
     const history = useHistory();
@@ -32,8 +32,8 @@ function AddVacation(): JSX.Element {
             myFormData.append("image", vacation.image.item(0));
 
             const response = await jwtAxios.post<VacationModel>(config.vacationsUrl, myFormData);
-
-            vacationsService.add(response.data);
+            store.dispatch({ type: VacationActionType.VacationAdded, payload: response.data });
+            // vacationsService.add(response.data);
 
             notify.success("vacation has been added.");
             history.push("/vacations");
