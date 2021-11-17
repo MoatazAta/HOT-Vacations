@@ -5,6 +5,7 @@ import Register from "../../AuthArea/Register/Register";
 import Home from "../../HomeArea/Home/Home";
 import AddVacation from "../../VacationArea/AddVacation/AddVacation";
 import EditVacation from "../../VacationArea/EditVacation/EditVacation";
+import VacationDetails from "../../VacationArea/VacationDetails/VacationDetails";
 import VacationList from "../../VacationArea/VacationList/VacationList";
 import VacationsChart from "../../VacationArea/VacationsChart/VacationsChart";
 
@@ -17,6 +18,7 @@ function Routing(): JSX.Element {
             <Route path="/logout" component={Logout} exact />
             <Route path="/vacations/add-vacation" component={AddVacation} exact></Route>
             <Route path="/vacations/chart-vacation" component={VacationsChart} exact></Route>
+            <Route path="/vacations/details/:id([0-9]+)" component={VacationDetails} exact />
             <Route path="/vacations" component={VacationList} exact></Route>
             <Route path="/vacations/edit/:id" component={EditVacation} exact></Route>
             <Redirect from="/" to="/home" exact />

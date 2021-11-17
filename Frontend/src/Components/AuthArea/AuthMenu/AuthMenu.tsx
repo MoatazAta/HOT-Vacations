@@ -38,11 +38,12 @@ class AuthMenu extends Component<{}, AuthMenuState> {
                     <>
                         <span>Hello {this.state.user.firstName + " " + this.state.user.lastName}</span>
                         <span> | </span>
-                        <NavLink to="/logout" exact><Fab color="secondary" size="small" aria-label="edit"> <LogoutIcon /></Fab></NavLink>
+                        <NavLink to="/logout" exact>logout</NavLink>
 
                     </>
                 }
                 {
+                    //<Fab color="secondary" size="small" aria-label="edit"> <LogoutIcon /></Fab>
                     !this.state.user &&
                     <>
                         <span>Hello Guest</span>

@@ -50,7 +50,9 @@ function VacationCard(props: VacationCardProps): JSX.Element {
                     title={props.vacation.destination}
                     subheader={props.vacation.price}
                 />
-                <img src={Config.vacationImagesUrl + props.vacation.picture} width="200" height="150" />
+                <NavLink to={"/vacations/details/" + props.vacation.vacationId}>
+                    <img src={Config.vacationImagesUrl + props.vacation.picture} width="200" height="150" />
+                </NavLink>
                 <CardContent>
                     <Typography variant="body2" color="primary">
                         {props.vacation.start} to {props.vacation.end}
@@ -66,7 +68,7 @@ function VacationCard(props: VacationCardProps): JSX.Element {
                     {props.isAdmin === 1 && <NavLink to={"/vacations/delete/" + props.vacation.vacationId} ><Fab size="small" color="primary" aria-label="delete" onClick={() => deleteVacation()}> <Delete /> </Fab></NavLink>}
 
                     {props.isAdmin === 0 && <Following vacationId={props.vacation.vacationId} userId={store.getState().authState.user.userId}></Following>}
-                </div>
+                </div>            
             </Card>
         </div>
     );

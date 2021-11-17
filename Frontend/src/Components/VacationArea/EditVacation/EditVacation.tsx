@@ -46,9 +46,11 @@ function EditVacation(props: EditVacationProps): JSX.Element {
             myFormData.append("start", vacation.start);
             myFormData.append("end", vacation.end);
             myFormData.append("image", vacation.image.item(0));
+
             const response = await jwtAxios.put<VacationModel>(config.vacationsUrl + `${id}`, myFormData);
             const updatedVacation = response.data;
-            store.dispatch({ type: VacationActionType.VacationAdded, payload: updatedVacation });
+            
+            store.dispatch({ type: VacationActionType.VacationUpdated, payload: updatedVacation });
 
             // vacationsService.edit(updatedVacation);
 

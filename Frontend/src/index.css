@@ -3,7 +3,7 @@ html, body, #root {
     text-align: center;
     font-size: x-large;
     /* background-image: url("https://www.zingerbug.com/Backgrounds/background_images/wood_grain.jpg"); */
-    background-image: linear-gradient(lightgray,white);
+    background-image: white;
 }
 
 a {
@@ -18,5 +18,4 @@ a {
     padding: 0 10px;
     margin: 10px;
     border-radius: 10px;
-    box-shadow: 5px 5px 10px;
 }

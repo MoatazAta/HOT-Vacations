@@ -43,7 +43,8 @@ class VacationList extends Component<VacationsListProps, VacationListState> {
                 const response = await jwtAxios.get<VacationModel[]>(config.vacationsUrl);
                 store.dispatch({ type: VacationActionType.VacationsDownloaded, payload: response.data });
             }
-            this.setState({ vacations: store.getState().vacationState.vacations, isAdmin: this.state.user.isAdmin })
+            
+            this.setState({ vacations: store.getState().vacationState.vacations, isAdmin: this.state.user.isAdmin });
 
             // vacationsService.socket.on("updated-vacation-from-server", updatedVacation => {
             //     // const allVacations = [...this.state.vacations];
