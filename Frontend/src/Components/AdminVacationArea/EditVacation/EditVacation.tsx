@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { RouteComponentProps, useHistory, useLocation } from "react-router-dom";
+import { RouteComponentProps, useHistory } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import VacationModel from "../../../Models/VacationModel";
 import store from "../../../Redux/Store";
@@ -10,7 +10,7 @@ import config from "../../../Services/Config";
 import { VacationActionType } from "../../../Redux/VacationState";
 
 interface RouteParams {
-    id: string;
+    uuid: string;
 }
 
 interface EditVacationProps extends RouteComponentProps<RouteParams> {
@@ -18,7 +18,7 @@ interface EditVacationProps extends RouteComponentProps<RouteParams> {
 
 function EditVacation(props: EditVacationProps): JSX.Element {
 
-    const id = + props.match.params.id;
+    const id = props.match.params.uuid;
     const history = useHistory();
     const { register, handleSubmit, formState } = useForm<VacationModel>();
     const [vacation, setVacation] = useState<VacationModel[]>([]);
@@ -29,12 +29,12 @@ function EditVacation(props: EditVacationProps): JSX.Element {
             history.push("/login");
         }
         
-        jwtAxios.get<VacationModel[]>(config.vacationsUrl + `${id}`)
+        jwtAxios.get<VacationModel[]>(config.vacationsURL + `${id}`)
             .then(response => setVacation(response.data))
             .catch(error => {
                 notify.error(error);
             });
-    }, []);
+    });
 
 
     async function send(vacation: VacationModel) {
@@ -47,12 +47,11 @@ function EditVacation(props: EditVacationProps): JSX.Element {
             myFormData.append("end", vacation.end);
             myFormData.append("image", vacation.image.item(0));
 
-            const response = await jwtAxios.put<VacationModel>(config.vacationsUrl + `${id}`, myFormData);
+            const response = await jwtAxios.put<VacationModel>(config.vacationsURL + `${id}`, myFormData);
             const updatedVacation = response.data;
             
             store.dispatch({ type: VacationActionType.VacationUpdated, payload: updatedVacation });
 
-            // vacationsService.edit(updatedVacation);
 
             notify.success("Vacations has been update");
             history.push("/vacations");

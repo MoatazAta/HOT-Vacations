@@ -1,7 +1,7 @@
 const Joi = require("joi");
 
 class UserModel {
-
+ 
     constructor(user) {
         this.userId = user.userId;
         this.firstName = user.firstName;
@@ -11,19 +11,22 @@ class UserModel {
         this.isAdmin = user.isAdmin;
     }
 
-    static #postValidationSchema = Joi.object({
-        userId: Joi.forbidden(),
-        firstName: Joi.string().required().min(2).max(50),
-        lastName: Joi.string().required().min(2).max(50),
-        username: Joi.string().required().min(3).max(50),
-        password: Joi.string().required().min(4).max(150),
-        isAdmin: Joi.boolean().optional()
-    });
-    
+
+
     validatePost() {
-        const result = UserModel.#postValidationSchema.validate(this, { abortEarly: false });
+        const validationSchema = Joi.object({
+            userId: Joi.string().optional().guid({ version: 'uuidv4' }).min(36).max(36),
+            firstName: Joi.string().required().min(2).max(30).regex(/^[a-zA-Z]{2,30}$/),
+            lastName: Joi.string().required().min(2).max(40).regex(/^[a-zA-Z]{2,35}$/),
+            username: Joi.string().required().min(2).max(30).regex(/^[0-9a-zA-Z]{4,30}$/),
+            password: Joi.string().required().min(6).max(30).regex(/(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9])(?=.{6,})/),
+            isAdmin: Joi.number().optional().positive().allow(1, 0).only(),
+        });
+        // abortEarly: false --> return all errors and not only the first one
+        const result = validationSchema.validate(this, { abortEarly: false });
+
         return result.error ? result.error.message : null;
-    }
-}
+    } 
+} 
 
 module.exports = UserModel;

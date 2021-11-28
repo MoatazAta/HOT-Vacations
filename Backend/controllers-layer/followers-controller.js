@@ -3,25 +3,20 @@ const followersLogic = require("../business-logic-layer/followers-logic");
 const VacationModel = require("../models/vacation-model");
 const logHelper = require("../helpers/log-helper");
 const errorsHelper = require("../helpers/errors-helper");
+const uuidValidateV4 = require("../middleware/check-uuid");
+const Follower = require("../models/follower-model");
+const verifyLoggedIn = require("../middleware/verify-logged-in");
 
-const router = express.Router();
-
-// GET http://localhost:3001/api/followers
-router.get("/", async (request, response) => {
-    try {
-        const followers = await followersLogic.getFollowingDetailsAsync();
-        response.json(followers);
-    }
-    catch (err) {
-        errorsHelper.internalServerError(response, err);
-    }
-});
+const router = express.Router(); 
+ 
+//The user must be logged in.
+router.use(verifyLoggedIn);
 
 
 // GET http://localhost:3001/api/followers/number-followers-per-vacation
-router.get("/number-followers-per-vacation", async (request, response) => {
+router.get("/all-followed-vacations", async (request, response) => {
     try {
-        const followers = await followersLogic.getNumberOfFollowersPerVacationAsync();
+        const followers = await followersLogic.getFollowersNumberAsync();
         response.json(followers);
     }
     catch (err) {
@@ -30,35 +25,43 @@ router.get("/number-followers-per-vacation", async (request, response) => {
 });
 
 
-// GET http://localhost:3001/api/followers/per-user/:id
-router.get("/per-user/:id", async (request, response) => {
+// GET all followed vacations by user id: */api/followers/by-user-id/:uuid
+router.get('/by-user-id/:uuid', uuidValidateV4, async (request, response) => {
     try {
-        const userId = +request.params.id;
-        const vacations = await followersLogic.getVacationsPerFollowerAsync(userId);
+        // data
+        const userId = request.params.uuid;
+
+        // logic
+        const vacations = await followersLogic.getFollowedVacationsByUserIdAsync(userId);
+
+        // success
         response.json(vacations);
-    }
-    catch (err) {
-        errorsHelper.internalServerError(response, err);
+    } catch (error) {
+        errorsHelper.internalServerError(response, error);
     }
 });
-
-// GET http://localhost:3001/api/per-vacation/:id
-router.get("/per-vacation/:id", async (request, response) => {
+ 
+// GET all following users by vacation id: */api/followers/by-vacation-id/:uuid
+router.get('/by-vacation-id/:uuid', uuidValidateV4, async (request, response) => {
     try {
-        const vacationId = +request.params.id;
-        const follower = await followersLogic.getUsersPerVacationFollowingAsync(vacationId);
-        response.json(follower);
-    }
-    catch (err) {
-        errorsHelper.internalServerError(response, err);
+        // data
+        const vacationId = request.params.uuid;
+
+        // logic
+        const users = await followersLogic.getFollowedVacationsByVacationIdAsync(vacationId);
+
+        // success
+        response.json(users);
+    } catch (error) {
+        errorsHelper.internalServerError(response, error);
     }
 });
 
 // GET http://localhost:3001/api/followers/:uid/:vid
 router.get("/:userId/:vacationId", async (request, response) => {
     try {
-        const userId = +request.params.userId;
-        const vacationId = +request.params.vacationId;
+        const userId = request.params.userId;
+        const vacationId = request.params.vacationId;
         const following = await followersLogic.getFollowingOnVacationAsync(userId, vacationId);
         response.json(following);
     }
@@ -70,12 +73,21 @@ router.get("/:userId/:vacationId", async (request, response) => {
 
 
 // POST http://localhost:3001/api/followers/:uid/:vid
-router.post("/:userId/:vacationId", async (request, response) => {
+router.post("/", async (request, response) => {
     try {
-        const userId = +request.params.userId;
-        const vacationId = +request.params.vacationId;
-        const addedFollower = await followersLogic.addFollowingToVacationAsync(userId, vacationId);
-        response.json(addedFollower);
+        const follower = new Follower(request.body);
+        // validation
+        const errors = follower.validate();
+        if (errors) return response.status(400).send(errors);
+
+        // logic
+        const addedFollower = await followersLogic.addFollowingToVacationAsync(follower);
+        if (!addedFollower) {
+            return response.send(false);
+        }
+
+        //  success
+        response.status(201).json(addedFollower);
     }
     catch (err) {
         errorsHelper.internalServerError(response, err);
@@ -85,9 +97,18 @@ router.post("/:userId/:vacationId", async (request, response) => {
 // DELETE http://localhost:3001/api/followers/:uid/:vid
 router.delete("/:userId/:vacationId", async (request, response) => {
     try {
-        const userId = +request.params.userId;
-        const vacationId = +request.params.vacationId;
-        await followersLogic.deleteFollowingFromVacationAsync(userId, vacationId);
+        // data
+        const follower = new Follower(request.params);
+        console.log(follower); 
+        // validation
+        const errors = follower.validate();
+        if (errors) return response.status(400).send(errors);
+ 
+        // logic
+        const success = await followersLogic.deleteFollowingFromVacationAsync(follower);
+        if (!success) return response.status(404).send("either the vacation id or the user id given were not found.");
+
+        //success
         response.sendStatus(204);
     }
     catch (err) {

@@ -1,0 +1,11 @@
+{
+    "isProduction": true,
+    "isDevelopment": false,
+    "database": {
+        "host": "",
+        "user": "",
+        "password": "",
+        "name": ""
+    },
+    "jwtKey": "aboAl3z"
+}

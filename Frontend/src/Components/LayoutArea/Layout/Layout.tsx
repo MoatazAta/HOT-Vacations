@@ -1,35 +1,50 @@
-import { Typography } from "@material-ui/core";
-import { NavLink } from "react-router-dom";
-import AuthMenu from "../../AuthArea/AuthMenu/AuthMenu";
 import Routing from "../Routing/Routing";
 import "./Layout.css";
-import logoImage from "../../../Assets/Images/travelnow.png";
 import Header from "../Header/Header";
+import { useEffect, useState } from "react";
+import UserModel from "../../../Models/UserModel";
+import store from "../../../Redux/Store";
+import Footer from "../Footer/Footer";
+// import _ from "lodash";
 
 function Layout(): JSX.Element {
+    const [user, setUser] = useState<UserModel>(store.getState().authState.user);
+    useEffect(() => {
+        const unsubscribe = store.subscribe(() => {
+            setUser(store.getState().authState.user);
+        });
+        return () => unsubscribe();
+    }, [user]);
 
-    return (
-        <div className="Layout">
-            <Header />
-            {/* <div className="Logo">
-                <img alt="" src={logoImage} />
+
+
+    if (!user) {
+        return (
+            <div className="guest-layout">
+                <Routing />
             </div>
-
-            <AuthMenu /> */}
-
-            <Typography variant="h5" align="center" color="primary">Travel Now</Typography>
-
-            <div>
-                <NavLink to="/home" exact>Home</NavLink>
-                <span> | </span>
-                <NavLink to="/vacations" exact>Vacations</NavLink>
-            </div>
-
-            <hr />
-
-            <Routing />
-        </div>
-    );
+        );
+    } else {
+        return (
+            <>
+                {user ? (
+                    <div className={"user-layout"}>
+                        <header>
+                            <Header />
+                        </header>
+                        <main>
+                            <Routing />
+                        </main>
+                        <footer>
+                            <Footer />
+                        </footer>
+                    </div>
+                ) : (
+                    null
+                )}
+            </>
+        );
+    }
 }
 
-export default Layout;
+    export default Layout;

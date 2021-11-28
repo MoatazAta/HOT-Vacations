@@ -1,35 +1,44 @@
 // configuration for both development and production...
 abstract class Config {
-
-    public isDevelopment = (process.env.NODE_ENV === "development");
-
-    public readonly authUrl: string;
-    public readonly vacationsUrl: string;
-    public readonly vacationImagesUrl: string;
-    public readonly followersUrl: string;
-
-    public constructor(baseUrl: string) {
-        this.authUrl = baseUrl + "auth/";
-        this.vacationsUrl = baseUrl + "vacations/";
-        this.vacationImagesUrl = baseUrl + "vacations/images/";
-        this.followersUrl = baseUrl + "followers/"
+    public readonly registerURL: string;
+    public readonly loginURL: string;
+    public readonly getUserById: string;
+    public readonly vacationsURL: string;
+    public readonly vacationImagesURL: string;
+    public readonly followersURL: string;
+    public readonly getAllFollowedVacationsByUserId: string;
+    public readonly getAllFollowersForVacation: string;
+    public readonly getAllFollowedVacations: string;
+  
+    public constructor(baseURL: string) {
+      this.registerURL = baseURL + "auth/register/";
+      this.loginURL = baseURL + "auth/login/";
+      this.getUserById = baseURL + "auth/get-user/";
+      this.vacationsURL = baseURL + "vacations/";
+      this.vacationImagesURL = this.vacationsURL + "images/";
+      this.followersURL = baseURL + "followers/";
+      this.getAllFollowedVacationsByUserId = this.followersURL + "by-user-id/";
+      this.getAllFollowersForVacation = this.followersURL + "by-vacation-id/";
+      this.getAllFollowedVacations = this.followersURL + "all-followed-vacations/";
     }
-}
-
-// configuration for development environment...
-class DevelopmentConfig extends Config {
+  }
+  
+  class DevelopmentConfig extends Config {
     public constructor() {
-        super("http://localhost:3001/api/");
+      super("http://localhost:3001/api/");
     }
-}
-
-// configuration for production environment...
-class ProductionConfig extends Config {
+  }
+  
+  class ProductionConfig extends Config {
     public constructor() {
-        super("http://www.mysite.com/api/");
+      super("http://localhost:3001/api/");
     }
-}
-
-const config = process.env.NODE_ENV === "development" ? new DevelopmentConfig() : new ProductionConfig();
-
-export default config;
+  }
+  
+  const config =
+    process.env.NODE_ENV === "development"
+      ? new DevelopmentConfig()
+      : new ProductionConfig();
+  
+  export default config;
+  

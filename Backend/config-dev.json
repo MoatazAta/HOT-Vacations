@@ -1,4 +1,6 @@
 {
+    "isProduction": false,
+    "isDevelopment": true,
     "database": {
         "host": "localhost",
         "user": "root",

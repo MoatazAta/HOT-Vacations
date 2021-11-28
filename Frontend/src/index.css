@@ -2,12 +2,8 @@ html, body, #root {
     height: 100%;
     text-align: center;
     font-size: x-large;
-    /* background-image: url("https://www.zingerbug.com/Backgrounds/background_images/wood_grain.jpg"); */
     background-image: white;
-}
-
-a {
-    color: darkblue;
+    overflow: hidden;
 }
 
 
@@ -18,4 +14,10 @@ a {
     padding: 0 10px;
     margin: 10px;
     border-radius: 10px;
+}
+
+.Bg {
+    background: linear-gradient(45deg, rgba(215, 220, 221, 1), rgba(100, 216, 243, .7), rgba(234, 236, 198, .6), rgba(215, 220, 221, 1), rgba(52, 219, 216, .7)) 0 0 / 1000% no-repeat, url("./Assets/Images/home.jpg") 0 0 / cover no-repeat;
+    -webkit-animation: gradientAnimation 30s ease infinite;
+    animation: gradientAnimation 30s ease infinite;
 }

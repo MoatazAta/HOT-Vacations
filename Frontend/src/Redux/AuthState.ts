@@ -1,5 +1,4 @@
 import UserModel from "../Models/UserModel";
-import vacationsService from "../Services/VacationsService";
 
 export class AuthState {
     public user: UserModel = null;
@@ -29,12 +28,10 @@ export function authReducer(currentState: AuthState = new AuthState(), action: A
         case AuthActionType.UserRegistered:
         case AuthActionType.UserLoggedIn:
             newState.user = action.payload;
-            // vacationsService.connect();
             localStorage.setItem("user", JSON.stringify(newState.user));
             break;
         case AuthActionType.UserLoggedOut:
             newState.user = null;
-            // vacationsService.disconnect();
             localStorage.removeItem("user");
             break;
     }

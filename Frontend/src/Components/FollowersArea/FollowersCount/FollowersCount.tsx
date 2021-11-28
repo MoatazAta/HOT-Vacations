@@ -6,24 +6,24 @@ import notify from "../../../Services/Notify";
 import "./FollowersCount.css";
 
 interface FollowersCountProps {
-    vacationId?: number;
+    vacationId?: string;
 }
 
 interface FollowersCountState {
-    numberOfFollowers: FollowersModel[];
+    followedVacations: FollowersModel[];
 }
-
+ 
 class FollowersCount extends Component<FollowersCountProps, FollowersCountState> {
 
     public constructor(props: FollowersCountProps) {
         super(props);
-        this.state = { numberOfFollowers: [] };
+        this.state = { followedVacations: [] };
     }
 
     public async componentDidMount() {
         try {
-            const response = await jwtAxios.get<FollowersModel[]>(config.followersUrl + "number-followers-per-vacation");
-            this.setState({ numberOfFollowers: response.data });
+            const response = await jwtAxios.get<FollowersModel[]>(config.getAllFollowedVacations);
+            this.setState({ followedVacations: response.data });
         }
         catch (err) {
             notify.error(err);
@@ -39,7 +39,7 @@ class FollowersCount extends Component<FollowersCountProps, FollowersCountState>
     public render(): JSX.Element {
         return (
             <div className="FollowersCount">
-                {this.state.numberOfFollowers.map(f => f.vacationId === this.props.vacationId && <div key={f.vacationId}>{f.numberOfUsers}</div>)}
+                {this.state.followedVacations.map(f => f.vacationId === this.props.vacationId && <div key={f.vacationId}>{f.followerNumber}</div>)}
             </div>
         );
     }

@@ -5,8 +5,7 @@ import config from "../../../Services/Config";
 import jwtAxios from "../../../Services/jwtAxios";
 import notify from "../../../Services/Notify";
 import "./VacationsChart.css";
-import React from 'react';
-import ReactDOM from 'react-dom';
+
 import { VictoryBar, VictoryChart, VictoryAxis } from 'victory';
 
 interface VacationsChartProps {
@@ -33,11 +32,11 @@ class VacationsChart extends Component<VacationsChartProps, VacationsChartState>
             }
 
             if (this.state.followers.length === 0) {
-                const response = await jwtAxios.get<FollowersModel[]>(config.followersUrl + "number-followers-per-vacation");
+                const response = await jwtAxios.get<FollowersModel[]>(config.getAllFollowedVacations);
                 this.setState({ followers: response.data });
 
                 this.state.followers.forEach(async v => {
-                    let data = { "quarter": v.destination, "earnings": v.numberOfUsers }
+                    let data = { "quarter": v.destination, "earnings": v.followerNumber }
                     this.state.info.push(data);
                 })
                 this.setState({ info: this.state.info });

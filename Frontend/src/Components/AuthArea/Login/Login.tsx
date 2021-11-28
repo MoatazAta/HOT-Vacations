@@ -1,11 +1,14 @@
+import { Button, Fab, TextField, Typography } from "@material-ui/core";
 import axios from "axios";
 import { useForm } from "react-hook-form";
-import { useHistory } from "react-router-dom";
+import { NavLink, useHistory } from "react-router-dom";
 import CredentialsModel from "../../../Models/CredentialsModel";
 import { AuthActionType } from "../../../Redux/AuthState";
 import store from "../../../Redux/Store";
 import notify from "../../../Services/Notify";
 import "./Login.css";
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+
 
 function Login(): JSX.Element {
     const history = useHistory();
@@ -24,21 +27,28 @@ function Login(): JSX.Element {
     }
 
     return (
-        <div className="Login Box">
-            <h2>Login</h2>
+        <div className="Login">
             <form onSubmit={handleSubmit(send)}>
 
-                <label>Username: </label>
-                <input type="text" {...register("username", {
-                    required: { value: true, message: "Missing username! " },
-                    minLength: { value: 4, message: "password must be larger than" }
-                 })} />
-                <br />
-                <span>{formState.errors.username?.message}</span>
-                <label>Password: </label>
-                <input type="password" {...register("password")} />
+                <Fab size="large" color="primary" ><Typography component="h3" variant="h6">Sign In </Typography>
+                    <LockOutlinedIcon /> </Fab>
 
-                <button>Login</button>
+
+                <TextField className="input" label="Username*" variant="outlined" type="text" {...register("username", {
+                    required: { value: true, message: "Missing username" }
+                })} />
+                <span className="ErrorSpan">{formState.errors.username?.message}</span>
+
+
+                <TextField className="input" label="Password*" variant="outlined" type="password" {...register("password", {
+                    required: { value: true, message: "Missing Password" }
+                })} />
+                <span className="ErrorSpan">{formState.errors.password?.message}</span>
+
+
+                <Button type="submit" variant="outlined">Login</Button>
+                <NavLink to="/register" exact>You don't have an account?</NavLink>
+
             </form>
         </div>
     );

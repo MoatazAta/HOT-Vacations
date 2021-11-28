@@ -1,33 +1,37 @@
-const io = require("socket.io");
+const io = require('socket.io');
 
 function init(listener) {
 
-    const socketsManager = io(listener, { cors: { origin: "http://localhost:3000" } }); // Allow react front
+    const socketManager = io(listener, { cors: { origin: "http://localhost:3000" } });
 
-    socketsManager.sockets.on("connection", socket => {
-
+    socketManager.sockets.on("connection", socket => {
         console.log("A client has been connected.");
+        console.log(socket.id);
 
-        socket.on("added-vacation-from-client", addedVacation => {
-            socketsManager.sockets.emit("added-vacation-from-server", addedVacation);
+        socket.on("add-new-vacation", vacation => {
+            console.log("added new vacation");
+            // broadcast to everyone except yourself  
+            socket.broadcast.emit("vacation-added", vacation);
         });
 
-        socket.on("updated-vacation-from-client", updatedVacation => {
-            socketsManager.sockets.emit("updated-vacation-from-server", updatedVacation);
+        socket.on("delete-vacation", (vacationId) => {
+            console.log("vacation deleted");
+            // broadcast to everyone except yourself  
+            socket.broadcast.emit("vacation-deleted", vacationId);
         });
-
-        socket.on("deleted-vacation-from-client", deletedVacation => {
-            socketsManager.sockets.emit("deleted-vacation-from-server", deletedVacation);
-        }); 
+        
+        socket.on("update-vacation", (vacation) => {
+            console.log("vacation updated");
+            // broadcast to everyone except yourself  
+            socket.broadcast.emit("vacation-updated", vacation);
+        });
 
         socket.on("disconnect", () => {
             console.log("A client has been disconnected");
         });
-
     });
 
 }
-
 module.exports = {
     init
 }

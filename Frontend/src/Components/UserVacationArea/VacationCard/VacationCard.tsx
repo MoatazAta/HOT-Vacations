@@ -14,6 +14,7 @@ import { CardContent, Fab, IconButton, Typography } from "@material-ui/core";
 import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
 import { Delete } from "@material-ui/icons";
 import { VacationActionType } from "../../../Redux/VacationState";
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 
 interface VacationCardProps {
     vacation: VacationModel;
@@ -27,10 +28,9 @@ function VacationCard(props: VacationCardProps): JSX.Element {
         try {
             const ok = window.confirm("Are you sure?");
             if (!ok) return;
-            await jwtAxios.delete(config.vacationsUrl + props.vacation.vacationId);
+            await jwtAxios.delete(config.vacationsURL + props.vacation.vacationId);
             store.dispatch({ type: VacationActionType.VacationDeleted, payload: props.vacation.vacationId });
 
-            // vacationsService.delete(props.vacation.vacationId);
             notify.success("Vacation has been deleted");
             history.push("/vacations");
         } catch (err) {
@@ -50,9 +50,12 @@ function VacationCard(props: VacationCardProps): JSX.Element {
                     title={props.vacation.destination}
                     subheader={props.vacation.price}
                 />
-                <NavLink to={"/vacations/details/" + props.vacation.vacationId}>
-                    <img src={Config.vacationImagesUrl + props.vacation.picture} width="200" height="150" />
-                </NavLink>
+                <div className="img-card">
+                    <img src={Config.vacationImagesURL + props.vacation.picture} width="200" height="150" alt="vacation" />
+                    <NavLink className="info" to={"/vacations/details/" + props.vacation.vacationId} >
+                        <Fab size="small" color="primary" aria-label="info"> <InfoOutlinedIcon /> </Fab>
+                    </NavLink>
+                </div>
                 <CardContent>
                     <Typography variant="body2" color="primary">
                         {props.vacation.start} to {props.vacation.end}
@@ -67,8 +70,9 @@ function VacationCard(props: VacationCardProps): JSX.Element {
 
                     {props.isAdmin === 1 && <NavLink to={"/vacations/delete/" + props.vacation.vacationId} ><Fab size="small" color="primary" aria-label="delete" onClick={() => deleteVacation()}> <Delete /> </Fab></NavLink>}
 
-                    {props.isAdmin === 0 && <Following vacationId={props.vacation.vacationId} userId={store.getState().authState.user.userId}></Following>}
-                </div>            
+                    {props.isAdmin === 0 && <Following vacationId={props.vacation.vacationId}></Following>}
+
+                </div>
             </Card>
         </div>
     );

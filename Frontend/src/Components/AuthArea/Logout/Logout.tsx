@@ -9,7 +9,7 @@ function Logout(): JSX.Element {
     useEffect(() => {
         store.dispatch({type: AuthActionType.UserLoggedOut });
         notify.success("you are logged out.");
-        history.push("/login");
+        history.push("/home");
     });
     return null;
 }

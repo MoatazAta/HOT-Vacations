@@ -1,4 +1,4 @@
-.VacationList VacationsBar{
+.ShowAdminVacations VacationsBar{
     color:red;
 }
 
@@ -13,4 +13,3 @@
 .Logo > img {
     height: 100%;
 }
-

@@ -4,9 +4,7 @@ import { Unsubscribe } from "redux";
 import UserModel from "../../../Models/UserModel";
 import store from "../../../Redux/Store";
 import "./AuthMenu.css";
-// import LogoutIcon from '@mui/icons-material/Logout';
-// import LogoutIcon from '@material-ui/icons/Logout';
-import { Fab } from "@material-ui/core";
+
 
 interface AuthMenuState {
     user: UserModel;

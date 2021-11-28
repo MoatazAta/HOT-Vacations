@@ -1,0 +1,35 @@
+.VacationCard {
+	width: 400px;
+    display: inline-flex;
+    align-items: center;
+    margin:10px;
+}
+
+.bottomMenu *{
+    display: inline-block;
+    margin: 10px;
+}
+
+.img-card {
+    position: relative;
+}
+.img-card > img {
+    width:100%;
+}
+
+.img-card:hover >  img {
+    opacity: 0.5;
+    filter: alpha(opacity=40);
+}
+
+.img-card:hover > .info {
+    display: inline-block;
+}
+.info {
+    display: none;
+    position: absolute;
+    top:40%;
+    left:45%;
+}
+
+

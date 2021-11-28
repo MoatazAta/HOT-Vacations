@@ -1,3 +1,25 @@
-.Layout {
+.user-layout {
     height: 100%;
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    grid-template-rows: 8% 84% 8%;
+}
+
+
+
+main, header, footer {
+    grid-column: span 6;
+}
+
+main {
+    background-image: url("../../../Assets/Images/home.jpg");
+    background-size: cover;
+    overflow: auto;
+    padding: 0;
+    margin: 0;
+}
+
+.guest-layout {
+    height: 100vh;
 }

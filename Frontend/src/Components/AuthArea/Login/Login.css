@@ -1,11 +1,25 @@
 .Login > form {
-	width: 250px;
-}
+	width: 350px;
+    display: flex;
+    flex-direction: column;
 
-.Login input {
+}
+.Login > Typography {
+    text-align: center;
+    margin-right: 2em;
+}
+.Login {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    position: absolute;
+    top:10%;
+    left:42%;
+}
+.Login .input {
     width: 100%;
     box-sizing: border-box;
-    margin: 0 0 20px 0;
+    margin:0 0 20px 0;
 }
 
 .Login button {
@@ -16,5 +30,14 @@
 }
 
 .Login h2 {
-    text-align: center;
+    text-align: left;
+}
+
+.ErrorSpan {
+    color: red;
+    margin-bottom: 1em;
+    width: 100%;
+    text-align: left;
+    display: inline-block;
+    /* background-color: aqua; */
 }

@@ -8,14 +8,15 @@ class CredentialsModel {
     }
 
     static #postValidationSchema = Joi.object({
-        username: Joi.string().required().min(3).max(50),
-        password: Joi.string().required().min(4).max(150)
+        username: Joi.string().required(),
+        password: Joi.string().required(),
     });
     
-    validatePost() {
+    validateLogin() {
         const result = CredentialsModel.#postValidationSchema.validate(this, { abortEarly: false });
         return result.error ? result.error.message : null;
     }
+
 }
 
 module.exports = CredentialsModel;

@@ -1,8 +1,8 @@
 class FollowersModel {
-    public vacationId: number;
+    public vacationId: string;
+    public userId: string;
+    public followerNumber: number;
     public destination: string;
-    public numberOfUsers: number;
-    public userId: number;
 }
 
 export default FollowersModel;
