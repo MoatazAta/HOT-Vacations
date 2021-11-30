@@ -12,6 +12,7 @@ import { useEffect, useState } from "react";
 import UserModel from "../../../Models/UserModel";
 import store from "../../../Redux/Store";
 import ShowUserVacations from "../../UserVacationArea/ShowUserVacations/ShowUserVacations";
+import ContactUs from "../../ContactUsArea/ContactUs/ContactUs";
 
 
 function Routing(): JSX.Element {
@@ -29,6 +30,7 @@ function Routing(): JSX.Element {
                 <Route path="/login" component={Login} exact />
                 <Route path="/home" component={Home} exact />
                 <Route path="/logout" component={Logout} exact />
+                <Route path="/contact-us" component={ContactUs} exact />
 
                 {(user?.isAdmin && (<Route path="/vacations" component={ShowAdminVacations} exact />))
                     || <Route path="/vacations" component={ShowUserVacations} exact />}
@@ -38,7 +40,7 @@ function Routing(): JSX.Element {
                 <Route path="/vacations/chart-vacation" component={VacationsChart} exact></Route>
                 <Route path="/vacations/details/:uuid" component={VacationDetails} exact />
                 <Route path="/vacations/edit/:uuid" component={EditVacation} exact></Route>
-                {((!user) && (<Redirect from="/" to="/home" exact />)) || <Redirect from="/" to="/vacations" exact />}
+                {(!user && (<Redirect from="/" to="/home" exact />)) || (user && <Redirect from="/" to="/vacations" exact />)}
             </Switch>
         </>
     );

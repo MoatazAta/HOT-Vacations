@@ -1,0 +1,27 @@
+.ContactUs.Box {
+	width: 450px;
+    margin: 20px;
+    padding: 20px;
+}
+
+.ContactUs .Headline {
+    text-align: center;
+}
+
+.ContactUs .TextBox {
+    width: 100%;
+    margin: 5px 0;
+}
+
+.ContactUs form .TextBox~span {
+    text-align: center;
+    color: red;
+    margin: 0 20px;
+}
+
+.ContactUs form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+}

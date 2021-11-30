@@ -3,7 +3,6 @@ import FollowersModel from "../../../Models/FollowersModel";
 import config from "../../../Services/Config";
 import jwtAxios from "../../../Services/jwtAxios";
 import notify from "../../../Services/Notify";
-import "./Following.css";
 import { FavoriteBorder, FavoriteSharp } from "@material-ui/icons";
 import { Fab } from "@material-ui/core";
 import store from "../../../Redux/Store";
@@ -37,7 +36,6 @@ class Following extends Component<FollowingProps, FollowingState> {
     }
 
     public followVacation = async (vacationId: string, userId: string) => {
-        console.log(config.followersURL)
         await jwtAxios.post(config.followersURL, { userId, vacationId, });
         notify.success("Following vacation");
     }
@@ -48,15 +46,11 @@ class Following extends Component<FollowingProps, FollowingState> {
     }
 
     public isFollowingVacation = (vacationId: string, userId: string) => {
-        console.log("isFollow: ", this.state.isFollow);
         this.setState({ isFollow: !this.state.isFollow });
         if (!this.state.isFollow) {
-            console.log("follow");
             this.followVacation(vacationId, userId);
         }
         else {
-            console.log("unfollow");
-
             this.unFollowVacation(vacationId, userId);
 
         }
@@ -66,8 +60,8 @@ class Following extends Component<FollowingProps, FollowingState> {
         return (
             <div className="Following">
                 <div onClick={(e) => this.isFollowingVacation(this.props.vacationId, this.state.userId)}>
-                    {this.state.isFollow === false && <Fab size="small" color="primary" aria-label="follow"  > {<FavoriteBorder />}</Fab>}
-                    {this.state.isFollow === true && <Fab size="small" color="primary" aria-label="unFollow" > {<FavoriteSharp />}</Fab>}
+                    {this.state.isFollow === false && <Fab size="medium" color="primary" aria-label="follow"  > {<FavoriteBorder />}</Fab>}
+                    {this.state.isFollow === true && <Fab size="medium" color="primary" aria-label="unFollow" > {<FavoriteSharp />}</Fab>}
                 </div>
             </div>
 

@@ -5,9 +5,9 @@ function Footer(): JSX.Element {
 
     return (
         <div className="Footer">
-			      <p>All rights reserved to Travel-Now | {getYear()} ©.</p>
+			      <p>All rights reserved to HOT-VACATIONS | {getYear()} ©</p>
         </div>
     );
 }
 
-export default Footer; 
+export default Footer;  

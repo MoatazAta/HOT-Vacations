@@ -17,7 +17,13 @@ html, body, #root {
 }
 
 .Bg {
-    background: linear-gradient(45deg, rgba(215, 220, 221, 1), rgba(100, 216, 243, .7), rgba(234, 236, 198, .6), rgba(215, 220, 221, 1), rgba(52, 219, 216, .7)) 0 0 / 1000% no-repeat, url("./Assets/Images/home.jpg") 0 0 / cover no-repeat;
+    background: linear-gradient(45deg, rgba(215, 220, 221, .9), rgba(100, 216, 243, .7), rgba(234, 236, 198, .6), rgba(215, 220, 221, 1), rgba(52, 219, 216, .7)) 0 0 / 1000% no-repeat, url("./Assets/Images/bg-home.jpg") 0 0 / cover no-repeat;
+    -webkit-animation: gradientAnimation 30s ease infinite;
+    animation: gradientAnimation 30s ease infinite;
+}
+
+.Bg2 {
+    background: linear-gradient(45deg, rgba(215, 220, 221, .9), rgba(100, 216, 243, .7), rgba(234, 236, 198, .6), rgba(215, 220, 221, 1), rgba(52, 219, 216, .7)) 0 0 / 1000% no-repeat, url("./Assets/Images/home3.jpg") 0 0 / cover no-repeat;
     -webkit-animation: gradientAnimation 30s ease infinite;
     animation: gradientAnimation 30s ease infinite;
 }

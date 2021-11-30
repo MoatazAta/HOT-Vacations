@@ -13,6 +13,7 @@ import { AuthActionType } from "../../../Redux/AuthState";
 import socketService from "../../../Services/socketService";
 import sortVacations from "../../../Helpers/SortVacations";
 import { Unsubscribe } from "redux";
+import Loading from "../../SharedArea/Loading/Loading";
 
 interface ShowUserVacationsState {
     vacations: VacationModel[];
@@ -88,7 +89,7 @@ class ShowUserVacations extends Component<VacationsListProps, ShowUserVacationsS
             if (err.response.status === 401) {
                 return this.props.history.replace("/");
             }
-            else if (err.response.status === 403) {
+            else if (err.response.message === "Your login session has expired") {
                 store.dispatch({ type: AuthActionType.UserLoggedOut, });
                 return this.props.history.replace("/login");
             }
@@ -97,16 +98,23 @@ class ShowUserVacations extends Component<VacationsListProps, ShowUserVacationsS
     }
 
 
-    public componentWillUnmount(): void {
+    public componentWillUnmount(): void { 
         this.unsubscribeMe();
     }
 
     public render(): JSX.Element {
         return (
-            <div className="ShowUserVacations">
+            <div className="ShowUserVacations Bg2">
+                {(this.state.vacations.length === 0 && <Loading />) ||
+                    (
+                        <>
+                            <div className="cards">
 
-                {this.state.vacations.length === 0 && <span>There are no vacations!</span>}
-                {this.state.vacations.map(v => <VacationCard key={v.vacationId} vacation={v} isAdmin={this.state.isAdmin} />)}
+                                {this.state.vacations.map(v => <VacationCard key={v.vacationId} vacation={v} isAdmin={this.state.isAdmin} />)}
+                            </div>
+
+                        </>
+                    )}
 
             </div>
         );

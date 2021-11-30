@@ -70,7 +70,7 @@ router.put("/:uuid", verifyLoggedIn, verifyAdmin, uuidValidateV4, async (request
 
         const vacation = await vacationLogic.getOneVacationAsync(vacationToUpdate.vacationId);
         currentImageName = vacation[0].picture
-
+ 
         const errors = vacationToUpdate.validatePut();
         if (errors) return response.status(400).send(errors);
 
@@ -88,9 +88,31 @@ router.put("/:uuid", verifyLoggedIn, verifyAdmin, uuidValidateV4, async (request
     }
 });
 
+// PATCH a vacation : */api/vacations/:uuid
+router.patch('/:uuid', verifyLoggedIn, verifyAdmin, uuidValidateV4, async (request, response) => {
+    try {
+        // model
+        request.body.vacationId = request.params.uuid;
+        const vacation = new VacationModel(request.body);
+
+        // // validate
+        // const errors = vacation.validatePatch();
+        // if (errors) return response.status(400).send(errors);
+
+        // logic
+        const updatedVacation = await vacationLogic.updatePartialVacationAsync(vacation);
+        if (!updatedVacation) return response.status(404).send("vacation with given id was not found.");
+
+        // success
+        response.json(updatedVacation);
+
+    } catch (error) {
+        errorsHelper.internalServerError(response, error);
+    }
+});
 
 // DELETE vacation
-router.delete("/:uuid",verifyLoggedIn, verifyAdmin, uuidValidateV4, async (request, response) => {
+router.delete("/:uuid", verifyLoggedIn, verifyAdmin, uuidValidateV4, async (request, response) => {
     try {
         const vacationId = request.params.uuid;
         const vacation = await vacationLogic.getOneVacationAsync(vacationId);

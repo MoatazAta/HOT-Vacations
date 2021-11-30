@@ -1,5 +1,5 @@
 import "./Loading.css";
-import loading from "../../../Assets/Images/MEBIB.gif";
+import loading from "../../../Assets/Images/loading1.gif";
 
 function Loading(): JSX.Element {
     return (

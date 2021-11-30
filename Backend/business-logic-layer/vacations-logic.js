@@ -16,26 +16,25 @@ async function getAllVacationsAsync() {
 }
 
 async function getOneVacationAsync(vacationId) {
-    const sql = `SELECT vacationId, description, destination, price,
-        DATE_FORMAT(start,"%Y-%m-%d") as start,
-        DATE_FORMAT(end,"%Y-%m-%d")as end,
-        picture FROM vacations WHERE vacationId = ?`;
-    const vacation = await dal.executeAsync(sql,[vacationId]);
+    const sql = `SELECT vacationId, description,
+    destination, price,start, end, picture 
+    FROM vacations WHERE vacationId = ?`;
+    const vacation = await dal.executeAsync(sql, [vacationId]);
     return vacation;
 }
 
 async function addVacationAsync(vacation, image) {
     if (!image) return null;
-    
+
 
     const extension = image.name.substr(image.name.lastIndexOf("."));
-    
+
     const newImageName = uuid.v4() + extension;
     vacation.picture = newImageName;
     vacation.vacationId = uuid.v4();
     const sql = `INSERT INTO vacations VALUES(?, ?, ?, ?, ?, ?, ?)`;
     await dal.executeAsync(sql, [vacation.vacationId, vacation.description, vacation.destination, vacation.price, vacation.start, vacation.end, vacation.picture]);
-    
+
     const fullPath = path.join("./images/", vacation.picture);
     await image.mv(fullPath);
     return vacation;
@@ -59,7 +58,7 @@ async function updateFullVacationAsync(vacation, newImage, currentImage) {
     const sql = `UPDATE vacations SET description = ?,
             destination = ?, price = ?, start = ?, end = ?, picture = ?
             WHERE vacationId = ?`;
- 
+
     const info = await dal.executeAsync(sql, [
         vacation.description,
         vacation.destination,
@@ -73,12 +72,21 @@ async function updateFullVacationAsync(vacation, newImage, currentImage) {
     return info.affectedRows === 0 ? null : vacation;
 }
 
+async function updatePartialVacationAsync(vacation) {
+    const vacationToUpdate = await getOneVacationAsync(vacation.vacationId);
+    for (const prop in vacation) {
+        if (prop in vacationToUpdate && vacation[prop] !== undefined) {
+            vacationToUpdate[prop] = vacation[prop];
+        }
+    }
+    return await updateFullVacationAsync(vacationToUpdate);
+}
 
 // Delete :
 async function deleteVacationAsync(vacationId, imageName) {
     const sql = "DELETE FROM vacations WHERE vacationId = ?";
     const info = await dal.executeAsync(sql, [vacationId]);
-    
+
     const fullPath = path.join("./images/", imageName);
     deleteFile(fullPath);
 
@@ -90,6 +98,7 @@ module.exports = {
     getOneVacationAsync,
     addVacationAsync,
     updateFullVacationAsync,
-    deleteVacationAsync
+    deleteVacationAsync,
+    updatePartialVacationAsync
 }
 

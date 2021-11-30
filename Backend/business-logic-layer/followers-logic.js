@@ -45,9 +45,7 @@ async function getFollowingOnVacationAsync(userId, vacationId) {
 async function addFollowingToVacationAsync(follower) {
 
     const followedVacation = await getFollowingOnVacationAsync(follower.userId, follower.vacationId);
-    console.log(followedVacation); 
     if (followedVacation) return false;
-    console.log("asd3");
 
     const sql = `INSERT INTO followers VALUES(?, ?)`;
     await dal.executeAsync(sql, [follower.userId, follower.vacationId]);

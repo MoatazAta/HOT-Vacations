@@ -15,6 +15,10 @@ import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
 import { Delete } from "@material-ui/icons";
 import { VacationActionType } from "../../../Redux/VacationState";
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
+import { AuthActionType } from "../../../Redux/AuthState";
+import { beautifyDate } from "../../../Helpers/HandleDate";
+import DateRangeTwoToneIcon from '@mui/icons-material/DateRangeTwoTone';
+import socketService from "../../../Services/socketService";
 
 interface VacationCardProps {
     vacation: VacationModel;
@@ -31,24 +35,33 @@ function VacationCard(props: VacationCardProps): JSX.Element {
             await jwtAxios.delete(config.vacationsURL + props.vacation.vacationId);
             store.dispatch({ type: VacationActionType.VacationDeleted, payload: props.vacation.vacationId });
 
+            socketService.deleteVacation(props.vacation.vacationId);
             notify.success("Vacation has been deleted");
             history.push("/vacations");
-        } catch (err) {
+            
+        } catch (err: any) {
+            if (err.response.status === 401) {
+                return history.replace("/");
+            }
+            else if (err.response.status === 403) {
+                store.dispatch({ type: AuthActionType.UserLoggedOut, });
+                return history.replace("/login");
+            }
             notify.error(err);
         }
     }
 
     return (
         <div className="VacationCard">
-            <Card elevation={3}>
+            <Card className="card">
                 <CardHeader
                     action={
-                        <IconButton>
+                        <IconButton size="small">  
+                            <br/>
                             <FollowersCount vacationId={props.vacation.vacationId} />
                         </IconButton>
                     }
                     title={props.vacation.destination}
-                    subheader={props.vacation.price}
                 />
                 <div className="img-card">
                     <img src={Config.vacationImagesURL + props.vacation.picture} width="200" height="150" alt="vacation" />
@@ -57,12 +70,19 @@ function VacationCard(props: VacationCardProps): JSX.Element {
                     </NavLink>
                 </div>
                 <CardContent>
-                    <Typography variant="body2" color="primary">
-                        {props.vacation.start} to {props.vacation.end}
+
+                    <Typography gutterBottom variant="body1" color="textPrimary" noWrap align="left">
+                        {props.vacation.description}
                     </Typography>
 
-                    <Typography variant="body2" color="textSecondary" noWrap >
-                        {props.vacation.description}
+                    <Typography gutterBottom variant="body1" color="primary" align="left">
+                        <Fab size="small" color="primary" aria-label="date">
+                            <DateRangeTwoToneIcon /></Fab> {beautifyDate(props.vacation.start)} - {beautifyDate(props.vacation.end)}
+                    </Typography>
+
+
+                    <Typography variant="h6" color="error" align="center">
+                        $ {props.vacation.price}
                     </Typography>
                 </CardContent>
                 <div className="bottomMenu">

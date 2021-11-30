@@ -34,7 +34,6 @@ router.post("/register", async (request, response) => {
         if (!isUsernameTaken) return response.status(400).send(`Username "${user.username}" already taken.`);
 
         const addedUser = await authLogic.registerAsync(userToAdd);
-        console.log(addedUser); 
 
         response.status(201).json(addedUser)
     } catch (err) {

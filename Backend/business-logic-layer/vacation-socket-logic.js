@@ -6,7 +6,6 @@ function init(listener) {
 
     socketManager.sockets.on("connection", socket => {
         console.log("A client has been connected.");
-        console.log(socket.id);
 
         socket.on("add-new-vacation", vacation => {
             console.log("added new vacation");

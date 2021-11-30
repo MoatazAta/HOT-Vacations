@@ -8,27 +8,28 @@ import notify from "../../../Services/Notify";
 import jwtAxios from "../../../Services/jwtAxios";
 import config from "../../../Services/Config";
 import { VacationActionType } from "../../../Redux/VacationState";
-import { Button, FormControl, Input, InputLabel, TextField } from "@material-ui/core";
+import { Button, FormControl, Input, InputLabel, TextField, Typography } from "@material-ui/core";
 import { checkStartEndDate } from "../../../Helpers/HandleDate";
 import socketService from "../../../Services/socketService";
+import { AuthActionType } from "../../../Redux/AuthState";
 
 function AddVacation(): JSX.Element {
 
     const history = useHistory();
     const { register, handleSubmit, formState } = useForm<VacationModel>();
 
-
-
     // If you are not logged in:
     useEffect(() => {
         if (!store.getState().authState.user) {
             notify.error("You are not logged in!");
-            history.push("/login");
+            return history.replace("/login");
         }
-        // if (!socketService.isConnected()) {
-        //     console.log("connected");
-        //     socketService.connect();
-        // }
+
+        if (!store.getState().authState.user.isAdmin) {
+            notify.error("You are not authorized!");
+            return history.replace("/");
+        }
+
     });
     async function send(vacation: VacationModel) {
         try {
@@ -49,50 +50,59 @@ function AddVacation(): JSX.Element {
             store.dispatch({ type: VacationActionType.VacationAdded, payload: response.data });
 
             socketService.addVacation(response.data);
-            
+
             notify.success("vacation has been added successfully.");
             history.push("/vacations");
         }
-        catch (err) {
+        catch (err: any) {
+            if (err.response.status === 401) {
+                return history.replace("/");
+            }
+            else if (err.response.status === 403) {
+                store.dispatch({ type: AuthActionType.UserLoggedOut, });
+                return history.replace("/login");
+            }
             notify.error(err);
         }
     }
-
+ 
     return (
         <div className="AddVacation Bg Box">
 
             <form onSubmit={handleSubmit(send)}>
-                <h1>New Vacation</h1>
+                <Typography variant="h6" color="primary" align="center">Add Vacation</Typography>
                 <TextField
                     label="Destination"
                     variant="outlined"
                     className="TextBox"
                     {...register("destination", {
                         required: true,
-                        minLength: 4,
-                        maxLength: 60,
+                        minLength: 3,
+                        maxLength: 50,
                     })}
                 />
                 {formState.errors.destination?.type === "required" && (
-                    <span>Please enter your first name</span>
+                    <span>Please enter a destination</span>
                 )}
 
                 {formState.errors.destination?.type === "minLength" && (
-                    <span>A destination should be at least 4 characters</span>
+                    <span>A destination should be at least 3 characters</span>
                 )}
                 {formState.errors.destination?.type === "maxLength" && (
-                    <span>A destination should be at most 60 characters</span>
+                    <span>A destination should be at most 50 characters</span>
                 )}
 
                 <TextField
                     size="medium"
                     label="Description"
                     variant="outlined"
+                    multiline
+                    rows={3}
                     className="TextBox"
                     {...register("description", {
                         required: true,
                         minLength: 10,
-                        maxLength: 1500,
+                        maxLength: 1000,
                     })}
                 />
                 {formState.errors.description?.type === "required" && (
@@ -102,7 +112,7 @@ function AddVacation(): JSX.Element {
                     <span>A description should be at least 10 characters</span>
                 )}
                 {formState.errors.description?.type === "maxLength" && (
-                    <span>A description should be at most 1500 characters</span>
+                    <span>A description should be at most 1000 characters</span>
                 )}
 
                 <TextField
@@ -157,9 +167,10 @@ function AddVacation(): JSX.Element {
                     <span>Please enter an end date</span>
                 )}
 
-
-                <label>Image: </label>
-                <input type="file" accept="image/*" {...register("image")} />
+                <FormControl className="TextBox">
+                    <label className="label">Image</label>
+                    <input className="upload" type="file" accept="image/*" {...register("image", { required: true, })} />
+                </FormControl>
                 {formState.errors.image && <span>Missing image.</span>}
 
                 <Button type="submit" variant="contained" color="primary">
@@ -167,7 +178,7 @@ function AddVacation(): JSX.Element {
                 </Button>
             </form>
 
-        </div >
+        </div>
     );
 }
 

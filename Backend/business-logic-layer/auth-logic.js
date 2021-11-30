@@ -17,9 +17,7 @@ async function registerAsync(user) {
     const sql = `INSERT INTO users VALUES(?, ?, ?, ?, ?, ?)`;
     if (!user.isAdmin) {
         user.isAdmin = 0; 
-    }
-    console.log(user);
-  
+    }  
     await dal.executeAsync(sql, [user.userId, user.firstName, user.lastName, user.username, user.password, user.isAdmin]);
     delete user.password;
     user.token = cryptoHelper.getNewToken(user);

@@ -23,7 +23,7 @@ function Layout(): JSX.Element {
             <div className="guest-layout">
                 <Routing />
             </div>
-        );
+        );  
     } else {
         return (
             <>

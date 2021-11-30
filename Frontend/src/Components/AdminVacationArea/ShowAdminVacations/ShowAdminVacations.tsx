@@ -12,6 +12,7 @@ import config from "../../../Services/Config";
 import { AuthActionType } from "../../../Redux/AuthState";
 import socketService from "../../../Services/socketService";
 import { Unsubscribe } from "redux";
+import Loading from "../../SharedArea/Loading/Loading";
 
 interface ShowAdminVacationsState {
     vacations: VacationModel[];
@@ -22,7 +23,7 @@ interface ShowAdminVacationsState {
 
 interface VacationsListProps {
     history: History;
-} 
+}
 
 
 class ShowAdminVacations extends Component<VacationsListProps, ShowAdminVacationsState> {
@@ -39,7 +40,6 @@ class ShowAdminVacations extends Component<VacationsListProps, ShowAdminVacation
         try {
             if (!store.getState().authState.user) {
                 notify.error("You are not logged-in");
-
                 return this.props.history.replace("/login");
             }
 
@@ -76,17 +76,25 @@ class ShowAdminVacations extends Component<VacationsListProps, ShowAdminVacation
         }
     }
 
-    
+
     public componentWillUnmount(): void {
         this.unsubscribeMe();
     }
 
     public render(): JSX.Element {
         return (
-            <div className="ShowAdminVacations">
+            <div className="ShowAdminVacations Bg2">
+                {(this.state.vacations.length === 0 && <Loading />) ||
+                    (
+                        <>
+                            <div className="cards">
 
-                {this.state.vacations.length === 0 && <span>There are no vacations!</span>}
-                {this.state.vacations.map(v => <VacationCard key={v.vacationId} vacation={v} isAdmin={this.state.isAdmin} />)}
+                                {this.state.vacations.map(v => <VacationCard key={v.vacationId} vacation={v} isAdmin={this.state.isAdmin} />)}
+                            </div>
+
+                        </>
+                    )}
+
 
             </div>
         );

@@ -8,18 +8,26 @@ import store from "../../../Redux/Store";
 import notify from "../../../Services/Notify";
 import "./Login.css";
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import { useEffect } from "react";
+import config from "../../../Services/Config";
 
 
 function Login(): JSX.Element {
     const history = useHistory();
     const { register, handleSubmit, formState } = useForm<CredentialsModel>();
 
+    useEffect(() => {
+        if (store.getState().authState.user) {
+            return history.replace("/")
+        }
+    });
+
     async function send(credentials: CredentialsModel) {
         try {
-            const response = await axios.post<CredentialsModel>("http://localhost:3001/api/auth/login", credentials);
+            const response = await axios.post<CredentialsModel>(config.loginURL, credentials);
             store.dispatch({ type: AuthActionType.UserLoggedIn, payload: response.data });
             notify.success("Logged-In Successfully!");
-            history.push("/vacations");
+            history.replace("/");
 
         } catch (error) {
             notify.error(error);

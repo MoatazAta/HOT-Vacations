@@ -99,7 +99,6 @@ router.delete("/:userId/:vacationId", async (request, response) => {
     try {
         // data
         const follower = new Follower(request.params);
-        console.log(follower); 
         // validation
         const errors = follower.validate();
         if (errors) return response.status(400).send(errors);

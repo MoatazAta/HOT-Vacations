@@ -1,6 +1,6 @@
 .AddVacation{
     width: 60%;
-    height: 90%;
+    height: 98%;
 }
 .AddVacation>form {
     width:90%;
@@ -30,4 +30,17 @@
     width:50%;
     align-self: center;
     margin-bottom: 20px;
+    margin-top: 10px;
+}
+
+.AddVacation>form> label {
+   margin-bottom: 1em;
+    color:rgb(99, 96, 96);
+}
+
+.AddVacation>form>.TextBox>.upload {
+    width: 100%;
+    font-size: large;
+    font-weight: bolder;
+    text-align: center;
 }

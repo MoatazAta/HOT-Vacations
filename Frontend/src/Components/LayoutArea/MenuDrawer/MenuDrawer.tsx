@@ -2,7 +2,6 @@ import "./MenuDrawer.css";
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
-import Button from '@mui/material/Button';
 import List from '@mui/material/List';
 import Divider from '@mui/material/Divider';
 import ListItem from '@mui/material/ListItem';
@@ -15,16 +14,16 @@ import InsertChartOutlinedIcon from '@mui/icons-material/InsertChartOutlined';
 import LogoutIcon from '@mui/icons-material/Logout';
 import OutboxIcon from '@mui/icons-material/Outbox';
 import { NavLink } from "react-router-dom";
+import { Fab, Typography } from "@material-ui/core";
+import store from "../../../Redux/Store";
 
 type Anchor = 'right';
 
 function MenuDrawer(): JSX.Element {
     const [state, setState] = React.useState({
-        top: false,
-        left: false,
-        bottom: false,
         right: false,
     });
+    const isAdmin = store.getState().authState.user.isAdmin;
 
     const toggleDrawer =
         (anchor: Anchor, open: boolean) =>
@@ -35,7 +34,7 @@ function MenuDrawer(): JSX.Element {
                         (event as React.KeyboardEvent).key === 'Shift')
                 ) {
                     return;
-                }
+                } 
 
                 setState({ ...state, [anchor]: open });
             };
@@ -48,7 +47,8 @@ function MenuDrawer(): JSX.Element {
             onKeyDown={toggleDrawer(anchor, false)}
         >
             <List>
-                <ListItemText className="header-menu" primary="MENU" />
+                <Typography variant="h5" color="primary" align="center">Hello {store.getState().authState.user.firstName}</Typography>
+                <Typography variant="subtitle1" color="inherit" align="center">Your Menu</Typography>
             </List>
             <Divider />
             <List>
@@ -60,28 +60,29 @@ function MenuDrawer(): JSX.Element {
                         <ListItemText primary="Vacations" />
                     </ListItem>
                 </NavLink>
-
-                <NavLink className="nav-menu" to="/vacations/add-vacation" exact>
+ 
+                {isAdmin === 1 && <NavLink className="nav-menu" to="/vacations/add-vacation" exact>
                     <ListItem button>
                         <ListItemIcon>
                             <AddCircleOutlineOutlinedIcon />
                         </ListItemIcon>
                         <ListItemText primary="Add Vacation" />
                     </ListItem>
-                </NavLink>
+                </NavLink>}
 
-                <NavLink className="nav-menu" to="/vacations/chart-vacation" exact>
+                {isAdmin === 1 && <NavLink className="nav-menu" to="/vacations/chart-vacation" exact>
                     <ListItem button>
                         <ListItemIcon>
                             <InsertChartOutlinedIcon />
                         </ListItemIcon>
                         <ListItemText primary="Chart" />
                     </ListItem>
-                </NavLink>
+                </NavLink>}
+
             </List>
             <Divider />
             <List>
-                <NavLink className="nav-menu" to="/logout" exact>
+                {isAdmin === 0 && <NavLink className="nav-menu" to="/contact-us" exact>
 
                     <ListItem button key="1">
                         <ListItemIcon>
@@ -89,7 +90,7 @@ function MenuDrawer(): JSX.Element {
                         </ListItemIcon>
                         <ListItemText primary="Contact us" />
                     </ListItem>
-                </NavLink>
+                </NavLink>}
 
                 <NavLink className="nav-menu" to="/logout" exact>
                     <ListItem button key="2">
@@ -107,7 +108,8 @@ function MenuDrawer(): JSX.Element {
         <>
             {(['right'] as const).map((anchor) => (
                 <React.Fragment key={anchor}>
-                    <Button onClick={toggleDrawer(anchor, true)}><MenuOpenIcon /></Button>
+
+                    <Fab size="large" variant="extended" color="primary" aria-label="menu" className="menu" onClick={toggleDrawer(anchor, true)}> <MenuOpenIcon />OPEN MENU </Fab>
                     <Drawer
                         anchor={anchor}
                         open={state[anchor]}

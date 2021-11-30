@@ -1,9 +1,9 @@
-.user-layout {
+.user-layout { 
     height: 100%;
-    width: 100%;
+    width: 100%; 
     display: grid;
     grid-template-columns: repeat(6, 1fr);
-    grid-template-rows: 8% 84% 8%;
+    grid-template-rows: 80px 1fr 80px;
 }
 
 
@@ -11,9 +11,8 @@
 main, header, footer {
     grid-column: span 6;
 }
-
+ 
 main {
-    background-image: url("../../../Assets/Images/home.jpg");
     background-size: cover;
     overflow: auto;
     padding: 0;
@@ -21,5 +20,5 @@ main {
 }
 
 .guest-layout {
-    height: 100vh;
+    height: 100%;
 }

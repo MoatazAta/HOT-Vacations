@@ -22,3 +22,28 @@
     grid-gap: 5px;
     padding: 10px;
 }
+
+.CardContainer .text {
+    margin: 1rem;
+}
+
+.bottomMenu *{
+    display: inline-block;
+    margin: 10px;
+}
+
+.bottomMenu>.back {
+    float: right;
+    padding: 0.5rem;
+    border-radius: 10px;
+    border: 1px solid #0C2D48;
+    font-size: 1.7rem;
+    text-decoration: none;
+    color: whitesmoke;
+    background-color:#5885AF;
+}
+
+.bottomMenu>.back:hover {
+    background-color:#81A6EB;
+
+}

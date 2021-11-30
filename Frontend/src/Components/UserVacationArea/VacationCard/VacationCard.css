@@ -1,9 +1,22 @@
 .VacationCard {
-	width: 400px;
+	width: 500px;
     display: inline-flex;
-    align-items: center;
-    margin:10px;
+    align-items: left;
+    /* margin:10px; */
 }
+
+.VacationCard  > .card {
+    /* min-width: 30vw; */
+    /* overflow: auto; */
+    /* max-height: 700px;
+    min-height: 700px;  */
+    /* display: grid; */
+    width: 22rem;
+    margin: 1rem;
+    /* justify-items: left;
+    align-items: left;     */
+}
+
 
 .bottomMenu *{
     display: inline-block;
@@ -14,11 +27,12 @@
     position: relative;
 }
 .img-card > img {
-    width:100%;
-}
+    width:19rem;
+    height: 15rem;
+} 
 
 .img-card:hover >  img {
-    opacity: 0.5;
+    opacity: 0.4;
     filter: alpha(opacity=40);
 }
 
@@ -31,5 +45,6 @@
     top:40%;
     left:45%;
 }
+
 
 

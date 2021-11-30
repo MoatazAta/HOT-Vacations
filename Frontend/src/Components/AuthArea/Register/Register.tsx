@@ -7,15 +7,20 @@ import store from "../../../Redux/Store";
 import notify from "../../../Services/Notify";
 import config from "../../../Services/Config";
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-
 import "./Register.css";
 import { Button, Fab, TextField, Typography } from "@material-ui/core";
+import { useEffect } from "react";
 
 function Register(): JSX.Element {
 
     const history = useHistory();
     const { register, handleSubmit, formState } = useForm<UserModel>();
 
+    useEffect(() => {
+        if (store.getState().authState.user) {
+            return history.replace("/");
+        }
+    });
     async function send(user: UserModel) {
         try {
             const myFormData = new FormData();
@@ -65,11 +70,14 @@ function Register(): JSX.Element {
                 {formState.errors.username?.type === "pattern" && <span className="ErrorSpan">Invalid username</span>}
 
                 <TextField className="input" label="Password*" variant="outlined" type="password"
-                    {...register("password", { required: true, minLength: 6, maxLength: 30 })} />
+                    {...register("password", {
+                        required: true, minLength: 6, maxLength: 30,
+                        pattern: /(?=.*[a-z])(?=.*[0-9])(?=.{6,})/
+                    })} />
                 {formState.errors.password?.type === "required" && <span className="ErrorSpan">Please enter your password</span>}
                 {formState.errors.password?.type === "minLength" && <span className="ErrorSpan">Please enter password with at least 6 chars</span>}
-                {formState.errors.password?.type === "maxLength" && <span className="ErrorSpan">pPlease enter password with at most 30 chars</span>}
-
+                {formState.errors.password?.type === "maxLength" && <span className="ErrorSpan">Please enter password with at most 30 chars</span>}
+                {formState.errors.password?.type === "pattern" && <span className="ErrorSpan">Password must contain letters and numbers</span>}
 
                 <Button variant="outlined" type="submit">Register</Button>
                 <NavLink to="/login" exact>You already have an account? </NavLink>
