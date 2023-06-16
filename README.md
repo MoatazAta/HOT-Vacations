@@ -7,7 +7,7 @@ Key Features:
 
 <br />
 
-* Real-time Updates: Implemented Socket.io to provide users with instant updates on vacation activities.
+* Real-time Updates: Implemented Socket.io to provide users with instant updates on vacation following activities.
 
  <br />
 
@@ -15,7 +15,7 @@ Key Features:
 
 <br />
 
-* Follow Count Display: Incorporated a follow count feature, enabling users to see the number of followers for each vacation.
+* Follow Count Display in chart: Incorporated a follow count feature, enabling admin to see the number of followers for each vacation.
 
 <br />
 
@@ -23,6 +23,7 @@ Key Features:
 
 <br />
 
+![ezgif com-optimize](https://github.com/MoatazAta/HOT-Vacations/assets/45338957/593cd6a8-c393-4e55-a04e-fa33b02fd213)
 
 
 
