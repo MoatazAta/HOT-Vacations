@@ -9,7 +9,7 @@ Key Features:
 
 * Real-time Updates: Implemented Socket.io to provide users with instant updates on vacation activities.
 
-* <br />
+ <br />
 
 * User-Friendly Interface: Designed an intuitive and simplified user interface that allows users to effortlessly follow vacations in real-time.
 
